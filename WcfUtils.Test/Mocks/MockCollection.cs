@@ -3,12 +3,11 @@
  *   Copyright (c) 2014 Entropa Software Ltd.  All Rights Reserved.    
  *
  */
-
 using System;
 using System.Collections.Generic;
 using log4net;
 
-namespace MockService {
+namespace Entropa.WcfUtils.Test.Mocks {
 
 	/// <summary>
 	/// A mock object collection.
