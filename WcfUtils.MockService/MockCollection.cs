@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using log4net;
 
-namespace Entropa.WcfUtils.Test.Mocks {
+namespace Entropa.WcfUtils.MockService {
 
 	/// <summary>
 	/// A mock object collection.

@@ -7,18 +7,18 @@ using System;
 using System.ServiceModel;
 using log4net;
 
-namespace Entropa.WcfUtils.Test.Mocks {
+namespace Entropa.WcfUtils.MockService {
 	/// <summary>
 	/// A service implementing <see cref="IMockContract"/>
 	/// </summary>
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-	public class MockService : IMockContract {
+	public class MockServiceImpl : IMockContract {
 
 		/// <summary>
 		/// The logger.
 		/// </summary>
 		// ReSharper disable once UnusedMember.Local
-		private readonly static ILog	_log	= LogManager.GetLogger( typeof( MockService ) );
+		private readonly static ILog	_log	= LogManager.GetLogger( typeof( MockServiceImpl ) );
 
 		/// <summary>
 		/// <see cref="IMockContract.Add(int,int)"/>

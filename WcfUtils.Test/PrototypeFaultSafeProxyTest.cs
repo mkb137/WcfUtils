@@ -6,22 +6,23 @@
 using System;
 using System.IO;
 using System.ServiceModel;
-using Entropa.WcfUtils.Test.Mocks;
+using Entropa.WcfUtils.MockService;
+using Entropa.WcfUtils.Test.Prototypes;
 using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Entropa.WcfUtils.Test {
 
 	/// <summary>
-	/// This tests the <see cref="FaultSafeProxy"/> prototype.
+	/// This tests the <see cref="PrototypeFaultSafeProxy"/> prototype.
 	/// </summary>
 	[TestClass]
-	public class FaultSafeProxyTest {
+	public class PrototypeFaultSafeProxyTest {
 
 		/// <summary>
 		/// The logger.
 		/// </summary>
-		private readonly static ILog	_log	= LogManager.GetLogger( typeof( FaultSafeProxyTest ) );
+		private readonly static ILog	_log	= LogManager.GetLogger( typeof( PrototypeFaultSafeProxyTest ) );
 
 		[TestInitialize]
 		public void Setup() {
@@ -34,13 +35,13 @@ namespace Entropa.WcfUtils.Test {
 			_log.DebugFormat( "TestPrototype" );
 			// Create the host
 			_log.DebugFormat( " - creating host" );
-			ServiceHost host = new ServiceHost( typeof( MockService ) );
+			ServiceHost host = new ServiceHost( typeof( MockServiceImpl ) );
 			_log.DebugFormat( " - opening host" );
 			host.Open();
 			_log.DebugFormat( " - host open" );
 
 			_log.DebugFormat( " - creating channel" );
-			IMockContract channel = new FaultSafeProxy( "MockEndpoint" );
+			IMockContract channel = new PrototypeFaultSafeProxy( "MockEndpoint" );
 			Assert.IsNotNull( channel, "Channel created" );
 			IDisposable disposableChannel = channel as IDisposable;
 			Assert.IsNotNull( disposableChannel, "Channel is disposable" );

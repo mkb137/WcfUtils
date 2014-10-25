@@ -6,7 +6,7 @@
 using System;
 using log4net;
 
-namespace Entropa.WcfUtils.Test.Mocks {
+namespace Entropa.WcfUtils.MockService {
 
 	/// <summary>
 	/// This interface does not implement a service contract.

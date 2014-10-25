@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Entropa.WcfUtils.MockService" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:element name="AddInt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddIntResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddIntResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDouble">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:double" />
+        <xs:element minOccurs="0" name="b" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddDoubleResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddDoubleResult" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Subtract">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SubtractResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SubtractResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add3">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+        <xs:element minOccurs="0" name="c" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add3Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Add3Result" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add4">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+        <xs:element minOccurs="0" name="c" type="xs:int" />
+        <xs:element minOccurs="0" name="d" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add4Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Add4Result" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add5">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+        <xs:element minOccurs="0" name="c" type="xs:int" />
+        <xs:element minOccurs="0" name="d" type="xs:int" />
+        <xs:element minOccurs="0" name="e" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add5Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Add5Result" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add6">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+        <xs:element minOccurs="0" name="c" type="xs:int" />
+        <xs:element minOccurs="0" name="d" type="xs:int" />
+        <xs:element minOccurs="0" name="e" type="xs:int" />
+        <xs:element minOccurs="0" name="f" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add6Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Add6Result" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add7">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+        <xs:element minOccurs="0" name="c" type="xs:int" />
+        <xs:element minOccurs="0" name="d" type="xs:int" />
+        <xs:element minOccurs="0" name="e" type="xs:int" />
+        <xs:element minOccurs="0" name="f" type="xs:int" />
+        <xs:element minOccurs="0" name="g" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add7Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Add7Result" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add8">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+        <xs:element minOccurs="0" name="c" type="xs:int" />
+        <xs:element minOccurs="0" name="d" type="xs:int" />
+        <xs:element minOccurs="0" name="e" type="xs:int" />
+        <xs:element minOccurs="0" name="f" type="xs:int" />
+        <xs:element minOccurs="0" name="g" type="xs:int" />
+        <xs:element minOccurs="0" name="h" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add8Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Add8Result" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Divide">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DivideResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DivideResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCollection">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="noElements" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCollectionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Entropa.WcfUtils.MockService" minOccurs="0" name="GetCollectionResult" nillable="true" type="q1:ArrayOfMockObject" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MultipleParameterTypes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="b" nillable="true" type="xs:anyType" />
+        <xs:element minOccurs="0" name="c" type="xs:dateTime" />
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="d" type="q2:duration" />
+        <xs:element minOccurs="0" name="e" nillable="true" type="xs:double" />
+        <xs:element minOccurs="0" name="f" nillable="true" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MultipleParameterTypesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="MultipleParameterTypesResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Multiply">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" type="xs:int" />
+        <xs:element minOccurs="0" name="b" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MultiplyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="MultiplyResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NoParameter">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NoParameterResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="NoParameterResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NoParameterNoReturn">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NoParameterNoReturnResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NoReturn">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="a" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NoReturnResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ThrowException">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ThrowExceptionResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

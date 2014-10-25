@@ -7,7 +7,7 @@
 using System;
 using System.IO;
 using System.ServiceModel;
-using Entropa.WcfUtils.Test.Mocks;
+using Entropa.WcfUtils.MockService;
 using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -35,7 +35,7 @@ namespace Entropa.WcfUtils.Test {
 			_log.DebugFormat( "TestCreate" );
 			// Create the host
 			_log.DebugFormat( " - creating host" );
-			ServiceHost host = new ServiceHost( typeof( MockService ) );
+			ServiceHost host = new ServiceHost( typeof( MockServiceImpl ) );
 			_log.DebugFormat( " - opening host" );
 			host.Open();
 			_log.DebugFormat( " - host open" );

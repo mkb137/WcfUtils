@@ -3,19 +3,21 @@
  *   Copyright (c) 2014 Entropa Software Ltd.  All Rights Reserved.    
  *
  */
+
 using System;
 using System.ServiceModel;
+using Entropa.WcfUtils.MockService;
 using log4net;
 
-namespace Entropa.WcfUtils.Test.Mocks {
+namespace Entropa.WcfUtils.Test.Prototypes {
 
 	/// <summary>
-	/// A fault safe proxy.
+	/// A prototypical fault safe proxy.
 	/// 
 	/// This serves as a prototype for the code produced from the FaultSafeProxyEmitter.  
 	/// To see how a given block of code should be emittied, add it to this prototype and use the IL tool to reverse engineer the CIL.
 	/// </summary>
-	public class FaultSafeProxy : IMockContract, IDisposable {
+	public class PrototypeFaultSafeProxy : IMockContract, IDisposable {
 
 		/// <summary>
 		/// The channel factory.
@@ -30,7 +32,7 @@ namespace Entropa.WcfUtils.Test.Mocks {
 		/// The constructor.
 		/// </summary>
 		/// <param name="endpoint"></param>
-		public FaultSafeProxy( string endpoint ) : this ( endpoint, null, null ) {
+		public PrototypeFaultSafeProxy( string endpoint ) : this ( endpoint, null, null ) {
 		}
 
 		/// <summary>
@@ -39,7 +41,7 @@ namespace Entropa.WcfUtils.Test.Mocks {
 		/// <param name="endpoint"></param>
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
-		public FaultSafeProxy( string endpoint, string userName, string password ) {
+		public PrototypeFaultSafeProxy( string endpoint, string userName, string password ) {
 			this._factory = new ChannelFactory<IMockContract>( endpoint );
 			if ( String.IsNullOrEmpty( userName ) || String.IsNullOrEmpty( password ) ) {
 				return;

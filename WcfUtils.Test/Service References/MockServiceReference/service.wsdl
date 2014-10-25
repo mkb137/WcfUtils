@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MockServiceImpl" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IMockContract_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Entropa.WcfUtils.MockService" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMockContract_AddInt_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddInt" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_AddInt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddIntResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_AddDouble_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddDouble" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_AddDouble_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddDoubleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Subtract_InputMessage">
+    <wsdl:part name="parameters" element="tns:Subtract" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Subtract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubtractResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add3_InputMessage">
+    <wsdl:part name="parameters" element="tns:Add3" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add3_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Add3Response" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add4_InputMessage">
+    <wsdl:part name="parameters" element="tns:Add4" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add4_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Add4Response" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add5_InputMessage">
+    <wsdl:part name="parameters" element="tns:Add5" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add5_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Add5Response" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add6_InputMessage">
+    <wsdl:part name="parameters" element="tns:Add6" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add6_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Add6Response" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add7_InputMessage">
+    <wsdl:part name="parameters" element="tns:Add7" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add7_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Add7Response" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add8_InputMessage">
+    <wsdl:part name="parameters" element="tns:Add8" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Add8_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Add8Response" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Divide_InputMessage">
+    <wsdl:part name="parameters" element="tns:Divide" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Divide_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DivideResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_GetCollection_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCollection" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_GetCollection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCollectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_MultipleParameterTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:MultipleParameterTypes" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_MultipleParameterTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MultipleParameterTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Multiply_InputMessage">
+    <wsdl:part name="parameters" element="tns:Multiply" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_Multiply_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MultiplyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_NoParameter_InputMessage">
+    <wsdl:part name="parameters" element="tns:NoParameter" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_NoParameter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NoParameterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_NoParameterNoReturn_InputMessage">
+    <wsdl:part name="parameters" element="tns:NoParameterNoReturn" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_NoParameterNoReturn_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NoParameterNoReturnResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_NoReturn_InputMessage">
+    <wsdl:part name="parameters" element="tns:NoReturn" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_NoReturn_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NoReturnResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_ThrowException_InputMessage">
+    <wsdl:part name="parameters" element="tns:ThrowException" />
+  </wsdl:message>
+  <wsdl:message name="IMockContract_ThrowException_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ThrowExceptionResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMockContract">
+    <wsdl:operation name="AddInt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContractBase/AddInt" message="tns:IMockContract_AddInt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContractBase/AddIntResponse" message="tns:IMockContract_AddInt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddDouble">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContractBase/AddDouble" message="tns:IMockContract_AddDouble_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContractBase/AddDoubleResponse" message="tns:IMockContract_AddDouble_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Subtract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContractBase/Subtract" message="tns:IMockContract_Subtract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContractBase/SubtractResponse" message="tns:IMockContract_Subtract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Add3">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/Add3" message="tns:IMockContract_Add3_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/Add3Response" message="tns:IMockContract_Add3_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Add4">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/Add4" message="tns:IMockContract_Add4_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/Add4Response" message="tns:IMockContract_Add4_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Add5">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/Add5" message="tns:IMockContract_Add5_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/Add5Response" message="tns:IMockContract_Add5_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Add6">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/Add6" message="tns:IMockContract_Add6_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/Add6Response" message="tns:IMockContract_Add6_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Add7">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/Add7" message="tns:IMockContract_Add7_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/Add7Response" message="tns:IMockContract_Add7_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Add8">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/Add8" message="tns:IMockContract_Add8_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/Add8Response" message="tns:IMockContract_Add8_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Divide">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/Divide" message="tns:IMockContract_Divide_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/DivideResponse" message="tns:IMockContract_Divide_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCollection">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/GetCollection" message="tns:IMockContract_GetCollection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/GetCollectionResponse" message="tns:IMockContract_GetCollection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MultipleParameterTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/MultipleParameterTypes" message="tns:IMockContract_MultipleParameterTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/MultipleParameterTypesResponse" message="tns:IMockContract_MultipleParameterTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Multiply">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/Multiply" message="tns:IMockContract_Multiply_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/MultiplyResponse" message="tns:IMockContract_Multiply_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NoParameter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/NoParameter" message="tns:IMockContract_NoParameter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/NoParameterResponse" message="tns:IMockContract_NoParameter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NoParameterNoReturn">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/NoParameterNoReturn" message="tns:IMockContract_NoParameterNoReturn_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/NoParameterNoReturnResponse" message="tns:IMockContract_NoParameterNoReturn_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NoReturn">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/NoReturn" message="tns:IMockContract_NoReturn_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/NoReturnResponse" message="tns:IMockContract_NoReturn_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ThrowException">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMockContract/ThrowException" message="tns:IMockContract_ThrowException_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMockContract/ThrowExceptionResponse" message="tns:IMockContract_ThrowException_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IMockContract" type="tns:IMockContract">
+    <wsp:PolicyReference URI="#NetTcpBinding_IMockContract_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="AddInt">
+      <soap12:operation soapAction="http://tempuri.org/IMockContractBase/AddInt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddDouble">
+      <soap12:operation soapAction="http://tempuri.org/IMockContractBase/AddDouble" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Subtract">
+      <soap12:operation soapAction="http://tempuri.org/IMockContractBase/Subtract" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add3">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/Add3" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add4">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/Add4" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add5">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/Add5" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add6">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/Add6" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add7">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/Add7" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add8">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/Add8" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Divide">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/Divide" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCollection">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/GetCollection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MultipleParameterTypes">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/MultipleParameterTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Multiply">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/Multiply" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NoParameter">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/NoParameter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NoParameterNoReturn">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/NoParameterNoReturn" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NoReturn">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/NoReturn" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ThrowException">
+      <soap12:operation soapAction="http://tempuri.org/IMockContract/ThrowException" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MockServiceImpl">
+    <wsdl:port name="NetTcpBinding_IMockContract" binding="tns:NetTcpBinding_IMockContract">
+      <soap12:address location="net.tcp://127.0.0.1:9005/MockService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://127.0.0.1:9005/MockService</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
