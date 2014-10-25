@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfUtils", "WcfUtils\WcfUtils.csproj", "{FEDF0A13-29D3-4FEB-9043-2B04BC55F1D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWcfUtils", "TestWcfUtils\TestWcfUtils.csproj", "{D4DED528-242A-440C-88F7-864C69774698}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfUtils.Test", "WcfUtils.Test\WcfUtils.Test.csproj", "{D4DED528-242A-440C-88F7-864C69774698}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

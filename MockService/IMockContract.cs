@@ -3,11 +3,12 @@
  *   Copyright (c) 2014 Entropa Software Ltd.  All Rights Reserved.    
  *
  */
+
 using System;
 using System.ServiceModel;
 using log4net;
 
-namespace TestWcfUtils.Mocks {
+namespace MockService {
 
 	/// <summary>
 	/// A service contract.  Extends the base contract in order to test that extended contracts are handled correctly.

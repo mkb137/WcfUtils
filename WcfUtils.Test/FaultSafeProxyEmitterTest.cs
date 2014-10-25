@@ -3,15 +3,15 @@
  *   Copyright (c) 2014 Entropa Software Ltd.  All Rights Reserved.    
  *
  */
+
 using System;
 using System.IO;
 using System.ServiceModel;
+using Entropa.WcfUtils.Test.Mocks;
 using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestWcfUtils.Mocks;
-using WcfUtils;
 
-namespace TestWcfUtils {
+namespace Entropa.WcfUtils.Test {
 
 	/// <summary>
 	/// This tests the <see cref="FaultSafeProxyEmitter{T}"/> class.

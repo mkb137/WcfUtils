@@ -7,7 +7,7 @@ using System;
 using System.Runtime.Serialization;
 using log4net;
 
-namespace TestWcfUtils.Mocks {
+namespace Entropa.WcfUtils.Test.Mocks {
 
 	/// <summary>
 	/// A mock object, used for sending complex types over a contract.

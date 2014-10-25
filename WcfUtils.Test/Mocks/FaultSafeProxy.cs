@@ -7,7 +7,7 @@ using System;
 using System.ServiceModel;
 using log4net;
 
-namespace TestWcfUtils.Mocks {
+namespace Entropa.WcfUtils.Test.Mocks {
 
 	/// <summary>
 	/// A fault safe proxy.

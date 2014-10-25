@@ -3,6 +3,7 @@
  *   Copyright (c) 2014 Entropa Software Ltd.  All Rights Reserved.    
  *
  */
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -12,7 +13,7 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Security;
 using log4net;
 
-namespace WcfUtils {
+namespace Entropa.WcfUtils {
 
 	/// <summary>
 	/// This emits a fault-safe proxy for a given contract interface.
