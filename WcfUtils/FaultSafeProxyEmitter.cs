@@ -618,7 +618,7 @@ namespace Entropa.WcfUtils {
 		private void BuildDisposeMethod( TypeBuilder typeBuilder ) {
 			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
 				"Dispose",
-				MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
+				MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
 				CallingConventions.Standard,
 				null,
 				new Type[0]

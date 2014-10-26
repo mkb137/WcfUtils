@@ -203,7 +203,7 @@ namespace Entropa.WcfUtils.Test.Prototypes {
 		/// <summary>
 		/// Returns our client object.
 		/// </summary>
-		public IMockContract GetClient() {
+		private MockContractClient GetClient() {
 			// If the client is null (because we've never created it or it faulted and we removed it)....
 			if ( null == this._client ) {
 				this._client = CreateClient();

@@ -87,9 +87,6 @@
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Entropa.WcfUtils.MockService.MockObject.datasource" />
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

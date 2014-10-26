@@ -375,7 +375,7 @@ namespace Entropa.WcfUtils {
 			//  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Abort()
 			il.MarkLabel( label0013 );
 			il.Emit( OpCodes.Ldarg_0 );
-			il.Emit( OpCodes.Ldflda, this._clientField );
+			il.Emit( OpCodes.Ldfld, this._clientField );
 			il.Emit( OpCodes.Callvirt, clientAbortMethodInfo );
 
 			//  IL_001e:  nop
@@ -485,7 +485,7 @@ namespace Entropa.WcfUtils {
 			//  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Close()
 			il.MarkLabel( label0013 );
 			il.Emit( OpCodes.Ldarg_0 );
-			il.Emit( OpCodes.Ldflda, this._clientField );
+			il.Emit( OpCodes.Ldfld, this._clientField );
 			il.Emit( OpCodes.Callvirt, clientCloseMethodInfo );
 
 			//  IL_001e:  nop
@@ -545,7 +545,7 @@ namespace Entropa.WcfUtils {
 			InitializeReadonlyField( il, this._endpointConfigurationNameField );
 			InitializeReadonlyField( il, this._remoteAddressField, OpCodes.Ldarg_2 );
 			InitializeReadonlyField( il, this._userNameField, OpCodes.Ldarg_3 );
-			this.InitializeReadonlySecureStringField( il, this._passwordField, OpCodes.Ldarg_S, "password" );
+			this.InitializeReadonlySecureStringField( il, this._passwordField, OpCodes.Ldarg_S, 4 );
 			EndConstructor( il );
 		}
 
@@ -636,7 +636,7 @@ namespace Entropa.WcfUtils {
 			InitializeReadonlyField( il, this._endpointConfigurationNameField, OpCodes.Ldarg_1 );
 			InitializeReadonlyField( il, this._remoteAddressField, OpCodes.Ldarg_2 );
 			InitializeReadonlyField( il, this._userNameField, OpCodes.Ldarg_3 );
-			this.InitializeReadonlySecureStringField( il, this._passwordField, OpCodes.Ldarg_S, "password" );
+			this.InitializeReadonlySecureStringField( il, this._passwordField, OpCodes.Ldarg_S, 4 );
 			EndConstructor( il );
 		}
 
@@ -860,7 +860,7 @@ namespace Entropa.WcfUtils {
 				"CreateClient",
 				MethodAttributes.Private | MethodAttributes.HideBySig,
 				CallingConventions.Standard,
-				typeof( TInterface ),
+				typeof( TClient ),
 				new Type[0]
 				);
 			ILGenerator il = this._createClientMethod.GetILGenerator();
@@ -872,8 +872,11 @@ namespace Entropa.WcfUtils {
 			MethodInfo getTypeFromHandleMethodInfo = typeof( Type ).GetMethod( "GetTypeFromHandle", new []{ typeof( RuntimeTypeHandle ) } ) ;
 			if ( null == getTypeFromHandleMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find method 'GetTypeFromHandle' on type Type" ) );
 
-			MethodInfo createInstancMethodInfo = typeof( Activator ).GetMethod( "CreateInstance", new []{ typeof( Type ), typeof( object[] ) } ) ;
-			if ( null == createInstancMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find method 'CreateInstance' on type Activator" ) );
+			MethodInfo createInstanceMethodInfo = typeof( Activator ).GetMethod( "CreateInstance", new []{ typeof( Type ) } ) ;
+			if ( null == createInstanceMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find method 'CreateInstance(Type)' on type Activator" ) );
+
+			MethodInfo createInstanceWithArgsMethodInfo = typeof( Activator ).GetMethod( "CreateInstance", new []{ typeof( Type ), typeof( object[] ) } ) ;
+			if ( null == createInstanceWithArgsMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find method 'CreateInstance(Type, object[])' on type Activator" ) );
 
 			ConstructorInfo invalidOperationExceptionConstructorInfo = typeof( InvalidOperationException ).GetConstructor( new [] { typeof( String ) } );
 			if ( null == invalidOperationExceptionConstructorInfo ) throw new InvalidOperationException( "Could not find (string) constructor for InvalidOperationException" );
@@ -1003,7 +1006,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Ldfld, this._remoteAddressField );
 			il.Emit( OpCodes.Stelem_Ref );
 			il.Emit( OpCodes.Ldloc_S, v5 );
-			il.Emit( OpCodes.Call, createInstancMethodInfo );
+			il.Emit( OpCodes.Call, createInstanceWithArgsMethodInfo );
 			il.Emit( OpCodes.Stloc_1 );
 			il.Emit( OpCodes.Nop );
 			il.Emit( OpCodes.Br, label00Da );
@@ -1079,7 +1082,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Ldfld, this._remoteAddressField );
 			il.Emit( OpCodes.Stelem_Ref );
 			il.Emit( OpCodes.Ldloc_S, v5 );
-			il.Emit( OpCodes.Call, createInstancMethodInfo );
+			il.Emit( OpCodes.Call, createInstanceWithArgsMethodInfo );
 			il.Emit( OpCodes.Stloc_1 );
 			il.Emit( OpCodes.Nop );
 			il.Emit( OpCodes.Br_S, label00Da );
@@ -1127,7 +1130,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Ldfld, this._endpointConfigurationNameField );
 			il.Emit( OpCodes.Stelem_Ref );
 			il.Emit( OpCodes.Ldloc_S, v5 );
-			il.Emit( OpCodes.Call, createInstancMethodInfo );
+			il.Emit( OpCodes.Call, createInstanceWithArgsMethodInfo );
 			il.Emit( OpCodes.Stloc_1 );
 			il.Emit( OpCodes.Nop );
 			il.Emit( OpCodes.Br_S, label00Da );
@@ -1140,7 +1143,7 @@ namespace Entropa.WcfUtils {
 			il.MarkLabel( label00D1 );
 			il.Emit( OpCodes.Nop );
 			il.Emit( OpCodes.Ldloc_0 );
-			il.Emit( OpCodes.Call, createInstancMethodInfo );
+			il.Emit( OpCodes.Call, createInstanceMethodInfo );
 			il.Emit( OpCodes.Stloc_1 );
 			il.Emit( OpCodes.Nop );
 			
@@ -1357,7 +1360,7 @@ namespace Entropa.WcfUtils {
 				"GetClient",
 				MethodAttributes.Private | MethodAttributes.HideBySig,
 				CallingConventions.Standard,
-				typeof( TInterface ),
+				typeof( TClient ),
 				new Type[0]
 				);
 			ILGenerator il = this._getClientMethod.GetILGenerator();
@@ -1528,7 +1531,7 @@ namespace Entropa.WcfUtils {
 		private void ImplementIDisposable( TypeBuilder typeBuilder ) {
 			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
 				"Dispose",
-				MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
+				MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
 				CallingConventions.Standard,
 				null,
 				new Type[0]
@@ -1540,7 +1543,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Nop );
 			il.Emit( OpCodes.Ret );
 			// Set that this overrides IDisposable.Dispose
-			typeBuilder.DefineMethodOverride( methodBuilder, typeof( IDisposable ).GetMethod( "Dispose", new Type[0] ) );
+//			typeBuilder.DefineMethodOverride( methodBuilder, typeof( IDisposable ).GetMethod( "Dispose", new Type[0] ) );
 		}
 
 
@@ -1811,7 +1814,7 @@ namespace Entropa.WcfUtils {
 		/// <param name="field"></param>
 		/// <param name="valueCode"></param>
 		/// <param name="parameterName"></param>
-		private void InitializeReadonlySecureStringField( ILGenerator il, FieldBuilder field, OpCode valueCode, string parameterName = null ) {
+		private void InitializeReadonlySecureStringField( ILGenerator il, FieldBuilder field, OpCode valueCode, byte? parameterIndex = null ) {
 			ConstructorInfo secureStringConstructorInfo = typeof( SecureString ).GetConstructor( new Type[0] );
 			if ( null == secureStringConstructorInfo ) throw new InvalidOperationException( String.Format( "Could not find SecureString.ctor() constructor info" ) );
 			MethodInfo getCharsMethodInfo = typeof( String ).GetMethod( "get_Chars", new []{ typeof( Int32 )} );
@@ -1852,8 +1855,8 @@ namespace Entropa.WcfUtils {
 			//   IL_003e:  stloc.0
 			il.Emit( OpCodes.Nop );
 			// If using lds instead of ldarg we need a name
-			if ( null != parameterName ) {
-				il.Emit( valueCode, parameterName );
+			if ( null != parameterIndex ) {
+				il.Emit( valueCode, parameterIndex.Value );
 			} else {
 				il.Emit( valueCode );
 			}

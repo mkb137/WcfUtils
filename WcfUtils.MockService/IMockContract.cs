@@ -21,7 +21,6 @@ namespace Entropa.WcfUtils.MockService {
 		/// <returns></returns>
 		[OperationContract( Name = "Add3" )]
 		int Add( int a, int b, int c );
-
 		/// <summary>
 		/// Adds four integers together (tests having multiple methods with the same name and different signatures).
 		/// </summary>

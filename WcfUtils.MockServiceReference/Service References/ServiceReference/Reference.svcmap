@@ -27,7 +27,7 @@
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="a14273e7-4159-42ee-b1b0-0081537da329" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="dd61e2f9-adb1-4ac7-b968-24005d56f46a" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="3f2e6c4e-c8be-417e-ac17-b97eff06ed99" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
-    <MetadataFile FileName="Entropa.WcfUtils.MockService.xsd" MetadataType="Schema" ID="015ecc7f-c6bc-49c2-95c7-61f15e8c62e0" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
+    <MetadataFile FileName="Entropa.WcfUtils.MockService.xsd" MetadataType="Schema" ID="edf2e350-aaa1-48f1-b235-c7e0a49b7689" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
