@@ -57,10 +57,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="PrototypeFaultSafeServiceReferenceClientTest.cs" />
     <Compile Include="Prototypes\PrototypeFaultSafeProxy.cs" />
     <Compile Include="FaultSafeProxyEmitterTest.cs" />
     <Compile Include="PrototypeFaultSafeProxyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Prototypes\PrototypeFaultSafeServiceReferenceClient.cs" />
     <Compile Include="Service References\MockServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
