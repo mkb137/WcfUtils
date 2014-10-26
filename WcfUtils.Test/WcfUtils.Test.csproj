@@ -57,6 +57,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FaultSafeServiceReferenceClientEmitterTest.cs" />
     <Compile Include="PrototypeFaultSafeServiceReferenceClientTest.cs" />
     <Compile Include="Prototypes\PrototypeFaultSafeProxy.cs" />
     <Compile Include="FaultSafeProxyEmitterTest.cs" />

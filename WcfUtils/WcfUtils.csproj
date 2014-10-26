@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FaultSafeEmitterBase.cs" />
     <Compile Include="FaultSafeProxyEmitter.cs" />
+    <Compile Include="FaultSafeServiceReferenceClientEmitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

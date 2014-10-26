@@ -1,10 +1,4 @@
-﻿/**
- *
- *   Copyright (c) 2014 Entropa Software Ltd.  All Rights Reserved.    
- *
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -18,12 +12,8 @@ namespace Entropa.WcfUtils {
 	/// <summary>
 	/// This emits a fault-safe proxy for a given contract interface.
 	/// </summary>
-	public sealed class FaultSafeProxyEmitter<T> where T : class {
+	public sealed class FaultSafeProxyEmitter<TInterface> : FaultSafeEmitterBase<TInterface> where TInterface : class {
 
-		/// <summary>
-		/// The generated assembly name.
-		/// </summary>
-		private const string			ASSEMBLY_NAME			= "FaultSafeProxyAssembly";
 		/// <summary>
 		/// The channel field name.
 		/// </summary>
@@ -37,13 +27,9 @@ namespace Entropa.WcfUtils {
 		/// </summary>
 		private const string			NO_CREDENTIALS_MESSAGE	= "factory has no credentials";
 		/// <summary>
-		/// The type name prefix.  A randomly generated suffix will be added.
-		/// </summary>
-		private const string			TYPE_NAME_PREFIX		= "FaultSafeProxy";
-		/// <summary>
 		/// The logger.
 		/// </summary>
-		private readonly static ILog	_log					= LogManager.GetLogger( typeof( FaultSafeProxyEmitter<T> ) );
+		private readonly static ILog	_log					= LogManager.GetLogger( typeof( FaultSafeProxyEmitter<TInterface> ) );
 		/// <summary>
 		/// The Abort method.
 		/// </summary>
@@ -68,27 +54,15 @@ namespace Entropa.WcfUtils {
 		/// <summary>
 		/// The construtor.
 		/// </summary>
-		private FaultSafeProxyEmitter () {
+		private FaultSafeProxyEmitter() {
 			// The private constructor prevents calling this class via anything but the Create method.
 		}
 
 		/// <summary>
-		/// Adds service contract types to the list.
+		/// <see cref="FaultSafeEmitterBase{TInterface}.AssemblyName"/>
 		/// </summary>
-		/// <param name="types"></param>
-		/// <param name="type"></param>
-		private static void AddServiceContractTypes( List<Type> types, Type type ) {
-			// Get the interfaces implemented by the type
-			Type[] baseTypes = type.GetInterfaces();
-			foreach ( Type baseType in baseTypes ) {
-				// Add its service contracts
-				AddServiceContractTypes( types, baseType );
-			}
-			// If the type is a service contract...
-			if ( HasServiceContractAttribute( type ) ) {
-				// Add it to the list.
-				types.Add( type );
-			}
+		protected override string AssemblyName {
+			get { return "FaultSafeProxyAssembly"; }
 		}
 
 		/// <summary>
@@ -132,12 +106,12 @@ namespace Entropa.WcfUtils {
 		/// <param name="typeBuilder"></param>
 		/// <returns></returns>
 		private MethodBuilder BuildAbortMethod( TypeBuilder typeBuilder ) {
-			MethodBuilder methodBuilder = typeBuilder.DefineMethod( 
-				"Abort", 
+			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
+				"Abort",
 				MethodAttributes.Private | MethodAttributes.HideBySig,
 				CallingConventions.Standard,
-				null, 
-				new Type[0] 
+				null,
+				new Type[0]
 				);
 			ILGenerator il = methodBuilder.GetILGenerator();
 			// Declare local variables
@@ -150,8 +124,9 @@ namespace Entropa.WcfUtils {
 
 			// Get some methods ahead of time
 			MethodInfo communicationsObjectAbortMethodInfo = typeof( ICommunicationObject ).GetMethod( "Abort", new Type[0] );
-			if ( null == communicationsObjectAbortMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find ICommunicationObject.Abort() method info" ) );
-			
+			if ( null == communicationsObjectAbortMethodInfo )
+				throw new InvalidOperationException( String.Format( "Could not find ICommunicationObject.Abort() method info" ) );
+
 			//     IL_0000:  nop
 			//     IL_0001:  ldnull
 			//     IL_0002:  ldarg.0
@@ -168,7 +143,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Ldarg_0 );
 			il.Emit( OpCodes.Ldfld, this._channelField );
 			il.Emit( OpCodes.Ceq );
-			il.Emit( OpCodes.Ldc_I4_0);
+			il.Emit( OpCodes.Ldc_I4_0 );
 			il.Emit( OpCodes.Ceq );
 			il.Emit( OpCodes.Stloc_1 );
 			il.Emit( OpCodes.Ldloc_1 );
@@ -176,7 +151,7 @@ namespace Entropa.WcfUtils {
 			// 
 			//     IL_0011:  br.s       IL_002d
 			il.Emit( OpCodes.Br_S, label002D );
-			
+
 			//     IL_0013:  ldarg.0
 			//     IL_0014:  ldfld      class [ClientServer]ClientServer.IComplexMathContract Client.FaultSafeProxy::_channel
 			//     IL_0019:  castclass  [System.ServiceModel]System.ServiceModel.IServiceChannel
@@ -214,12 +189,12 @@ namespace Entropa.WcfUtils {
 		/// <param name="typeBuilder"></param>
 		/// <returns></returns>
 		private static FieldBuilder BuildChannelField( TypeBuilder typeBuilder ) {
-			return typeBuilder.DefineField( 
+			return typeBuilder.DefineField(
 				CHANNEL_FIELD,
-				typeof( T ),
+				typeof( TInterface ),
 				FieldAttributes.Private
 				);
-			
+
 		}
 
 		/// <summary>
@@ -262,12 +237,12 @@ namespace Entropa.WcfUtils {
 		/// <param name="typeBuilder"></param>
 		/// <returns></returns>
 		private MethodBuilder BuildCloseMethod( TypeBuilder typeBuilder ) {
-			MethodBuilder methodBuilder = typeBuilder.DefineMethod( 
-				"Close", 
+			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
+				"Close",
 				MethodAttributes.Private | MethodAttributes.HideBySig,
 				CallingConventions.Standard,
-				null, 
-				new Type[0] 
+				null,
+				new Type[0]
 				);
 			ILGenerator il = methodBuilder.GetILGenerator();
 			// Declare local variables
@@ -280,7 +255,8 @@ namespace Entropa.WcfUtils {
 
 			// Get some methods ahead of time
 			MethodInfo communicationsObjectCloseMethodInfo = typeof( ICommunicationObject ).GetMethod( "Close", new Type[0] );
-			if ( null == communicationsObjectCloseMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find ICommunicationObject.Close() method info" ) );
+			if ( null == communicationsObjectCloseMethodInfo )
+				throw new InvalidOperationException( String.Format( "Could not find ICommunicationObject.Close() method info" ) );
 			//     IL_0000:  nop
 			//     IL_0001:  ldnull
 			//     IL_0002:  ldarg.0
@@ -297,7 +273,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Ldarg_0 );
 			il.Emit( OpCodes.Ldfld, this._channelField );
 			il.Emit( OpCodes.Ceq );
-			il.Emit( OpCodes.Ldc_I4_0);
+			il.Emit( OpCodes.Ldc_I4_0 );
 			il.Emit( OpCodes.Ceq );
 			il.Emit( OpCodes.Stloc_1 );
 			il.Emit( OpCodes.Ldloc_1 );
@@ -305,7 +281,7 @@ namespace Entropa.WcfUtils {
 			// 
 			//     IL_0011:  br.s       IL_002d
 			il.Emit( OpCodes.Br_S, label002D );
-			
+
 			//     IL_0013:  ldarg.0
 			//     IL_0014:  ldfld      class [ClientServer]ClientServer.IComplexMathContract Client.FaultSafeProxy::_channel
 			//     IL_0019:  castclass  [System.ServiceModel]System.ServiceModel.IServiceChannel
@@ -408,10 +384,10 @@ namespace Entropa.WcfUtils {
 		/// ]]></remarks>
 		/// <param name="typeBuilder"></param>
 		private ConstructorBuilder BuildConstructorAuthenticated( TypeBuilder typeBuilder ) {
-			ConstructorBuilder constructorBuilder = typeBuilder.DefineConstructor( 
+			ConstructorBuilder constructorBuilder = typeBuilder.DefineConstructor(
 				MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName,
-				CallingConventions.Standard, 
-				new [] { typeof( String ), typeof( String ), typeof( String ) } 
+				CallingConventions.Standard,
+				new[] { typeof( String ), typeof( String ), typeof( String ) }
 				);
 			ILGenerator il = constructorBuilder.GetILGenerator();
 			// Define the labels we'll need ahead of time
@@ -422,29 +398,37 @@ namespace Entropa.WcfUtils {
 			Label label007F = il.DefineLabel();
 
 			// Get the methods we'll need ahead of time
-			ConstructorInfo invalidOperationExceptionConstructorInfo = typeof( InvalidOperationException ).GetConstructor( new []{ typeof( String ) } );
-			if ( null == invalidOperationExceptionConstructorInfo ) throw new InvalidOperationException( String.Format( "Could not find InvalidOperationException.ctor( string ) constructor info" ) );
+			ConstructorInfo invalidOperationExceptionConstructorInfo = typeof( InvalidOperationException ).GetConstructor( new[] { typeof( String ) } );
+			if ( null == invalidOperationExceptionConstructorInfo )
+				throw new InvalidOperationException( String.Format( "Could not find InvalidOperationException.ctor( string ) constructor info" ) );
 
-			MethodInfo stringIsNullOrEmptyMethodInfo = typeof( String ).GetMethod( "IsNullOrEmpty", new []{ typeof( String ) } );
-			if ( null == stringIsNullOrEmptyMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find String.IsNullOrEmpty( string ) method info" ) );
+			MethodInfo stringIsNullOrEmptyMethodInfo = typeof( String ).GetMethod( "IsNullOrEmpty", new[] { typeof( String ) } );
+			if ( null == stringIsNullOrEmptyMethodInfo )
+				throw new InvalidOperationException( String.Format( "Could not find String.IsNullOrEmpty( string ) method info" ) );
 
 			ConstructorInfo objectConstructorInfo = typeof( Object ).GetConstructor( new Type[0] );
-			if ( null == objectConstructorInfo ) throw new InvalidOperationException( String.Format( "Could not find Object.ctor() constructor info" ) );
+			if ( null == objectConstructorInfo )
+				throw new InvalidOperationException( String.Format( "Could not find Object.ctor() constructor info" ) );
 
-			ConstructorInfo factoryConstructorInfo = typeof( ChannelFactory<T> ).GetConstructor( new [] { typeof( String ) } );
-			if ( null == factoryConstructorInfo ) throw new InvalidOperationException( String.Format( "Could not find ChannelFactory<T>.ctor( string ) constructor info" ) );
+			ConstructorInfo factoryConstructorInfo = typeof( ChannelFactory<TInterface> ).GetConstructor( new[] { typeof( String ) } );
+			if ( null == factoryConstructorInfo )
+				throw new InvalidOperationException( String.Format( "Could not find ChannelFactory<T>.ctor( string ) constructor info" ) );
 
-			MethodInfo factoryCredentialsGetterMethodInfo = typeof( ChannelFactory<T> ).GetProperty( "Credentials", typeof( ClientCredentials ) ).GetGetMethod();
-			if ( null == factoryCredentialsGetterMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find ChannelFactory<T>.get_Credentials method info" ) );
+			MethodInfo factoryCredentialsGetterMethodInfo = typeof( ChannelFactory<TInterface> ).GetProperty( "Credentials", typeof( ClientCredentials ) ).GetGetMethod();
+			if ( null == factoryCredentialsGetterMethodInfo )
+				throw new InvalidOperationException( String.Format( "Could not find ChannelFactory<T>.get_Credentials method info" ) );
 
 			MethodInfo clientCredientialsUserNameGetterMethodInfo = typeof( ClientCredentials ).GetProperty( "UserName", typeof( UserNamePasswordClientCredential ) ).GetGetMethod();
-			if ( null == clientCredientialsUserNameGetterMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find ClientCredentials.get_UserName method info" ) );
+			if ( null == clientCredientialsUserNameGetterMethodInfo )
+				throw new InvalidOperationException( String.Format( "Could not find ClientCredentials.get_UserName method info" ) );
 
 			MethodInfo credentialsUserNameSetterMethodInfo = typeof( UserNamePasswordClientCredential ).GetProperty( "UserName", typeof( String ) ).GetSetMethod();
-			if ( null == credentialsUserNameSetterMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find UserNamePasswordClientCredential.set_UserName method info" ) );
+			if ( null == credentialsUserNameSetterMethodInfo )
+				throw new InvalidOperationException( String.Format( "Could not find UserNamePasswordClientCredential.set_UserName method info" ) );
 
 			MethodInfo credentialsPasswordSetterMethodInfo = typeof( UserNamePasswordClientCredential ).GetProperty( "Password", typeof( String ) ).GetSetMethod();
-			if ( null == credentialsPasswordSetterMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find UserNamePasswordClientCredential.set_Password method info" ) );
+			if ( null == credentialsPasswordSetterMethodInfo )
+				throw new InvalidOperationException( String.Format( "Could not find UserNamePasswordClientCredential.set_Password method info" ) );
 
 			//     .locals init ([0] bool CS$4$0000)
 			il.DeclareLocal( typeof( bool ) );
@@ -473,7 +457,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Ldarg_2 );
 			il.Emit( OpCodes.Call, stringIsNullOrEmptyMethodInfo );
 			il.Emit( OpCodes.Brtrue_S, label0027 );
-			
+
 			//     IL_001c:  ldarg.3
 			//     IL_001d:  call       bool [mscorlib]System.String::IsNullOrEmpty(string)
 			//     IL_0022:  ldc.i4.0
@@ -523,7 +507,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Stloc_0 );
 			il.Emit( OpCodes.Ldloc_0 );
 			il.Emit( OpCodes.Brtrue_S, label0050 );
-	
+
 			// 
 			//     IL_0045:  ldstr      "factory has no credentials"
 			//     IL_004a:  newobj     instance void [mscorlib]System.InvalidOperationException::.ctor(string)
@@ -531,7 +515,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Ldstr, NO_CREDENTIALS_MESSAGE );
 			il.Emit( OpCodes.Newobj, invalidOperationExceptionConstructorInfo );
 			il.Emit( OpCodes.Throw );
-			
+
 
 			// 
 			//     IL_0050:  ldarg.0
@@ -557,7 +541,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Nop );
 			il.Emit( OpCodes.Ldarg_0 );
 			il.Emit( OpCodes.Ldfld, this._factoryField );
-			il.Emit( OpCodes.Callvirt, typeof( ChannelFactory<T> ).GetProperty( "Credentials", typeof( ClientCredentials ) ).GetGetMethod() );
+			il.Emit( OpCodes.Callvirt, typeof( ChannelFactory<TInterface> ).GetProperty( "Credentials", typeof( ClientCredentials ) ).GetGetMethod() );
 			il.Emit( OpCodes.Callvirt, typeof( ClientCredentials ).GetProperty( "UserName", typeof( UserNamePasswordClientCredential ) ).GetGetMethod() );
 			il.Emit( OpCodes.Ldarg_3 );
 			il.Emit( OpCodes.Callvirt, typeof( UserNamePasswordClientCredential ).GetProperty( "Password", typeof( String ) ).GetSetMethod() );
@@ -597,10 +581,10 @@ namespace Entropa.WcfUtils {
 		/// <param name="typeBuilder"></param>
 		/// <param name="defaultConstructorBuilder"></param>
 		private static void BuildConstructorUnauthenticated( TypeBuilder typeBuilder, ConstructorBuilder defaultConstructorBuilder ) {
-			ConstructorBuilder constructorBuilder = typeBuilder.DefineConstructor( 
+			ConstructorBuilder constructorBuilder = typeBuilder.DefineConstructor(
 				MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName,
-				CallingConventions.Standard, 
-				new [] { typeof( String ) } 
+				CallingConventions.Standard,
+				new[] { typeof( String ) }
 				);
 			ILGenerator il = constructorBuilder.GetILGenerator();
 			il.Emit( OpCodes.Ldarg_0 );
@@ -633,12 +617,12 @@ namespace Entropa.WcfUtils {
 		/// <param name="typeBuilder"></param>
 		private void BuildDisposeMethod( TypeBuilder typeBuilder ) {
 
-			MethodBuilder methodBuilder = typeBuilder.DefineMethod( 
-				"Dispose", 
+			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
+				"Dispose",
 				MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
 				CallingConventions.Standard,
-				null, 
-				new Type[0] 
+				null,
+				new Type[0]
 				);
 			ILGenerator il = methodBuilder.GetILGenerator();
 			il.Emit( OpCodes.Nop );
@@ -647,7 +631,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Nop );
 			il.Emit( OpCodes.Ret );
 			// Set that this overrides IDisposable.Dispose
-			typeBuilder.DefineMethodOverride(  methodBuilder, typeof( IDisposable ).GetMethod( "Dispose", new Type[0] ) );
+			typeBuilder.DefineMethodOverride( methodBuilder, typeof( IDisposable ).GetMethod( "Dispose", new Type[0] ) );
 		}
 
 		/// <summary>
@@ -659,11 +643,11 @@ namespace Entropa.WcfUtils {
 		/// <param name="typeBuilder"></param>
 		/// <returns></returns>
 		private static FieldBuilder BuildFactoryField( TypeBuilder typeBuilder ) {
-			return typeBuilder.DefineField( 
+			return typeBuilder.DefineField(
 				FACTORY_FIELD,
-				typeof( ChannelFactory<T> ),
+				typeof( ChannelFactory<TInterface> ),
 				FieldAttributes.Private
-				);			
+				);
 		}
 
 		/// <summary>
@@ -707,16 +691,16 @@ namespace Entropa.WcfUtils {
 		/// <param name="typeBuilder"></param>
 		/// <returns></returns>
 		private MethodBuilder BuildGetChannelMethod( TypeBuilder typeBuilder ) {
-			MethodBuilder methodBuilder = typeBuilder.DefineMethod( 
-				"GetChannel", 
+			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
+				"GetChannel",
 				MethodAttributes.Private | MethodAttributes.HideBySig,
 				CallingConventions.Standard,
-				typeof( T ),
+				typeof( TInterface ),
 				new Type[0]
 				);
 			ILGenerator il = methodBuilder.GetILGenerator();
 			// Declare local variables
-			il.DeclareLocal( typeof( T ) );
+			il.DeclareLocal( typeof( TInterface ) );
 			il.DeclareLocal( typeof( bool ) );
 
 			// Define some labels ahead of time
@@ -724,8 +708,9 @@ namespace Entropa.WcfUtils {
 			Label label002D = il.DefineLabel();
 
 			// Get some methods ahead of time
-			MethodInfo channelFactoryCreateChannelMethodInfo = typeof( ChannelFactory<T> ).GetMethod( "CreateChannel", new Type[0] );
-			if ( null == channelFactoryCreateChannelMethodInfo ) throw new InvalidOperationException( String.Format( "Could not find ChannelFactory<T>.CreateChannel() method info" ) );
+			MethodInfo channelFactoryCreateChannelMethodInfo = typeof( ChannelFactory<TInterface> ).GetMethod( "CreateChannel", new Type[0] );
+			if ( null == channelFactoryCreateChannelMethodInfo )
+				throw new InvalidOperationException( String.Format( "Could not find ChannelFactory<T>.CreateChannel() method info" ) );
 
 			//     IL_0000:  nop
 			//     IL_0001:  ldnull
@@ -771,7 +756,7 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Ldfld, this._channelField );
 			il.Emit( OpCodes.Stloc_0 );
 			il.Emit( OpCodes.Br_S, label002D );
-			
+
 			//     IL_002d:  ldloc.0
 			//     IL_002e:  ret
 			il.MarkLabel( label002D );
@@ -805,53 +790,24 @@ namespace Entropa.WcfUtils {
 		/// <summary>
 		/// This generates a fault safe proxy for the given service contract interface.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="TInterface"></typeparam>
 		/// <param name="endpoint">The endpoint name.</param>
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		public static T Create( string endpoint, string userName, string password ) {
-			FaultSafeProxyEmitter<T> emitter = new FaultSafeProxyEmitter<T>();
+		public static TInterface Create( string endpoint, string userName, string password ) {
+			FaultSafeProxyEmitter<TInterface> emitter = new FaultSafeProxyEmitter<TInterface>();
 			return emitter.CreateProxy( endpoint, userName, password );
 		}
 
 		/// <summary>
 		/// This generates a fault safe proxy for the given type.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="TInterface"></typeparam>
 		/// <param name="endpoint">The endpoint name.</param>
 		/// <returns></returns>
-		public static T Create( string endpoint ) {
+		public static TInterface Create( string endpoint ) {
 			return Create( endpoint, null, null );
-		}
-
-		/// <summary>
-		/// Creates the assembly builder.
-		/// </summary>
-		/// <returns></returns>
-		private static AssemblyBuilder CreateAssemblyBuilder() {
-			// Create our dynamic assembly name and version
-			AssemblyName assemblyName = new AssemblyName( ASSEMBLY_NAME );
-			assemblyName.Version = new Version( 1, 0, 0, 0 );
-			// Create the assembly builder, specifying whether we'll want to only run the assembly or run and save it
-			AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
-				assemblyName,
-				//				AssemblyBuilderAccess.Run
-				AssemblyBuilderAccess.RunAndSave
-				);
-			return assemblyBuilder;
-		}
-
-		/// <summary>
-		/// Creates the module builder.
-		/// </summary>
-		/// <param name="assemblyBuilder"></param>
-		/// <returns></returns>
-		private static ModuleBuilder CreateModuleBuilder( AssemblyBuilder assemblyBuilder ) {
-			return assemblyBuilder.DefineDynamicModule(
-				assemblyBuilder.GetName().Name, 
-				assemblyBuilder.GetName().Name + ".mod"  // Note: A module file name is necessary in order to save
-				);
 		}
 
 		/// <summary>
@@ -861,12 +817,12 @@ namespace Entropa.WcfUtils {
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		private T CreateProxy( string endpoint, string userName, string password ) {
+		private TInterface CreateProxy( string endpoint, string userName, string password ) {
 			_log.DebugFormat( "Create - endpoint = '{0}', userName = '{1}'", endpoint, userName );
 			// Validate our type.
-			ValidateType();
+			ValidateTypeParameters();
 			// Create the dynamic assembly builder
-			AssemblyBuilder assemblyBuilder = CreateAssemblyBuilder();
+			AssemblyBuilder assemblyBuilder = this.CreateAssemblyBuilder();
 			// Create the dynamic module builder
 			ModuleBuilder moduleBuilder = CreateModuleBuilder( assemblyBuilder );
 			// Create the type builder
@@ -876,54 +832,17 @@ namespace Entropa.WcfUtils {
 			// Create the type
 			Type generatedType = typeBuilder.CreateType();
 			_log.DebugFormat( " - created type '{0}'", generatedType );
+#if DEBUG
+			// Save the assembly to file
+			assemblyBuilder.Save( assemblyBuilder.GetName().Name + ".dll" );
+#endif
 			// Create an instance of the type
 			object instance = Activator.CreateInstance( generatedType, endpoint, userName, password );
 			_log.DebugFormat( " - created instance '{0}'", instance );
 			_log.DebugFormat( " - created IDisposable '{0}'", instance as IDisposable );
-			_log.DebugFormat( " - created T '{0}'", instance as T );
-			// Save the assembly to file
-			assemblyBuilder.Save( assemblyBuilder.GetName().Name + ".dll" );
+			_log.DebugFormat( " - created T '{0}'", instance as TInterface );
 			// Return the created instance
-			return instance as T;
-		}
-
-		/// <summary>
-		/// Creates the type builder.
-		/// </summary>
-		/// <param name="moduleBuilder"></param>
-		/// <returns></returns>
-		private TypeBuilder CreateTypeBuilder( ModuleBuilder moduleBuilder ) {
-			// Define our custom type, which implements the given interface and IDisposable
-			TypeBuilder typeBuilder = moduleBuilder.DefineType(
-				GenerateTypeName(), 
-				TypeAttributes.Class,
-				typeof ( Object ),
-				this.GetImplementedInterfaces()
-				);
-			return typeBuilder;
-		}
-
-		/// <summary>
-		/// Generates a semi-random type name.
-		/// </summary>
-		/// <returns></returns>
-		private static string GenerateTypeName() {
-			return TYPE_NAME_PREFIX + "_" + typeof ( T ).Name + "_" + Guid.NewGuid();
-		}
-
-		/// <summary>
-		/// Returns the list of interfaces that we implement.
-		/// </summary>
-		/// <returns></returns>
-		public Type[] GetImplementedInterfaces() {
-			// Create a list of types we'll implement
-			List<Type> types = new List<Type>();
-			// Add the service contract interfaces
-			types.AddRange( GetServiceContractTypes( typeof( T ) ) );
-			// Add IDisposable
-			types.Add( typeof( IDisposable ) );
-			// Return the types as an array
-			return types.ToArray();
+			return instance as TInterface;
 		}
 
 		/// <summary>
@@ -939,43 +858,6 @@ namespace Entropa.WcfUtils {
 				parameterTypes[i] = parameter.ParameterType;
 			}
 			return parameterTypes;
-		}
-
-		/// <summary>
-		/// Returns the service contract types on the given type.
-		/// </summary>
-		/// <param name="type"></param>
-		/// <returns></returns>
-		private static IEnumerable<Type> GetServiceContractTypes( Type type ) {
-			// Create a list of types
-			List<Type> types = new List<Type>();
-			// Get the service contract interfaces on the type
-			AddServiceContractTypes( types, type );
-			// Return the types on the array
-			return types.ToArray();
-		}
-
-		/// <summary>
-		/// Returns true if has an attribute of the given type.
-		/// </summary>
-		/// <param name="type">The class or interface type.</param>
-		/// <param name="attributeType">The custom attribute type.</param>
-		/// <param name="inherit">Whether to include base classes.</param>
-		/// <returns>Whether or not the type has the given attribute.</returns>
-		public static bool HasCustomAttribute( Type type, Type attributeType, bool inherit = true ) {
-			if ( null == type ) throw new ArgumentNullException( "type" );
-			if ( null == attributeType ) throw new ArgumentNullException( "attributeType" );
-			object[] attributes = type.GetCustomAttributes( attributeType, inherit );
-			return ( attributes.Length > 0 );
-		}
-
-		/// <summary>
-		/// Returns whether or not the interface type implements the service contract attribute.
-		/// </summary>
-		/// <param name="interfaceType"></param>
-		/// <returns></returns>
-		private static bool HasServiceContractAttribute( Type interfaceType ) {
-			return HasCustomAttribute( interfaceType, typeof( ServiceContractAttribute ), false );
 		}
 
 		/// <summary>
@@ -1076,7 +958,7 @@ namespace Entropa.WcfUtils {
 			bool hasReturnType = !String.Equals( method.ReturnType.FullName, "System.Void", StringComparison.InvariantCultureIgnoreCase );
 			// Create the method
 			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
-				method.Name, 
+				method.Name,
 				MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
 				CallingConventions.Standard,
 				method.ReturnType,
@@ -1124,7 +1006,7 @@ namespace Entropa.WcfUtils {
 			//      IL_000f:  ldarg.s    f
 			if ( parameterTypes.Length > 3 ) {
 				for ( int i = 3; i < parameterTypes.Length; i++ ) {
-					il.Emit( OpCodes.Ldarg_S , (byte)i+1 );
+					il.Emit( OpCodes.Ldarg_S, (byte)i + 1 );
 				}
 			}
 			// Call the target method
@@ -1139,7 +1021,7 @@ namespace Entropa.WcfUtils {
 				//      IL_000d:  nop
 				//      IL_000e:  nop
 				il.Emit( OpCodes.Nop );
-				il.Emit( OpCodes.Nop );				
+				il.Emit( OpCodes.Nop );
 			}
 			//      IL_000f:  leave.s    IL_001c
 			il.Emit( OpCodes.Leave_S, endLabel );
@@ -1173,7 +1055,7 @@ namespace Entropa.WcfUtils {
 			//    IL_0026:  ret
 			il.Emit( OpCodes.Ret );
 			// The method overrides the method in the base type
-//			typeBuilder.DefineMethodOverride( methodBuilder, method );
+			//			typeBuilder.DefineMethodOverride( methodBuilder, method );
 		}
 
 		/// <summary>
@@ -1213,25 +1095,16 @@ namespace Entropa.WcfUtils {
 		/// <param name="typeBuilder"></param>
 		private void ImplementServiceContracts( TypeBuilder typeBuilder ) {
 			// Get all the interface types on our contract type
-			IEnumerable<Type> interfaceTypes = GetServiceContractTypes( typeof( T ) );
+			IEnumerable<Type> interfaceTypes = GetServiceContractTypes( typeof( TInterface ) );
 			// Implement the service contracts starting with our given type
 			this.ImplementOperationContracts( typeBuilder, interfaceTypes );
 		}
 
 		/// <summary>
-		/// Validates the type we've been given.
+		/// <see cref="FaultSafeEmitterBase{TInterface}.TypeName"/>
 		/// </summary>
-		private static void ValidateType() {
-			// Ensure T is an interface.
-			Type type = typeof ( T );
-			if ( !type.IsInterface ) {
-				throw new ArgumentOutOfRangeException( string.Format( "Type {0} must be an interface.", type.Name ) );
-			}
-			// Ensure the type is a service contract
-			if ( !HasServiceContractAttribute( type ) ) {
-				throw new ArgumentOutOfRangeException( string.Format( "Type {0} must have the [ServiceContract] attribute.", type.Name ) );
-			}
+		protected override string TypeName {
+			get { return "FaultSafeProxy"; }
 		}
-
 	}
 }

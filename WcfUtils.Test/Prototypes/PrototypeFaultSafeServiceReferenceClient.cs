@@ -241,7 +241,7 @@ namespace Entropa.WcfUtils.Test.Prototypes {
 		/// <summary>
 		/// Aborts the service client in the case of exception.
 		/// </summary>
-		public void Abort() {
+		private void Abort() {
 			if ( null == this._client ) return;
 			this._client.Abort();
 			this._client = null;
@@ -250,7 +250,7 @@ namespace Entropa.WcfUtils.Test.Prototypes {
 		/// <summary>
 		/// Closes the client.
 		/// </summary>
-		public void Close() {
+		private void Close() {
 			if ( null == this._client ) return;
 			this._client.Close();
 			this._client = null;
