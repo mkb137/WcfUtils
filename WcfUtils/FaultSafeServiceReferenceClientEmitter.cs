@@ -508,7 +508,51 @@ namespace Entropa.WcfUtils {
 			this.BuildFields( typeBuilder );
 			this.BuildConstructors( typeBuilder );
 			this.BuildClientControlMethods( typeBuilder );
+			this.ImplementIDisposable( typeBuilder );
+			this.ImplementServiceContracts( typeBuilder );
+		}
+
+		/// <summary>
+		/// Builds the methods to implment the service constract interfaces.
+		/// </summary>
+		/// <param name="typeBuilder"></param>
+		private void ImplementServiceContracts( TypeBuilder typeBuilder ) {
 			// TODO
+		}
+
+		/// <summary>
+		/// Builds the Dispose method.
+		/// </summary>
+		/// <remarks><![CDATA[
+		/// .method public hidebysig newslot virtual final 
+		///        instance void  Dispose() cil managed
+		///{
+		///  // Code size       9 (0x9)
+		///  .maxstack  8
+		///  IL_0000:  nop
+		///  IL_0001:  ldarg.0
+		///  IL_0002:  call       instance void Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::Close()
+		///  IL_0007:  nop
+		///  IL_0008:  ret
+		///} // end of method PrototypeFaultSafeServiceReferenceClient::Dispose
+		/// ]]></remarks>
+		/// <param name="typeBuilder"></param>
+		private void ImplementIDisposable( TypeBuilder typeBuilder ) {
+			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
+				"Dispose",
+				MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
+				CallingConventions.Standard,
+				null,
+				new Type[0]
+				);
+			ILGenerator il = methodBuilder.GetILGenerator();
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Call, this._closeMethod );
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ret );
+			// Set that this overrides IDisposable.Dispose
+			typeBuilder.DefineMethodOverride( methodBuilder, typeof( IDisposable ).GetMethod( "Dispose", new Type[0] ) );
 		}
 
 		/// <summary>

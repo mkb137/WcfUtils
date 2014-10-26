@@ -141,13 +141,13 @@ namespace Entropa.WcfUtils {
 		/// <returns></returns>
 		protected Type[] GetImplementedInterfaces() {
 			// Create a list of types we'll implement
-			List<Type> types = new List<Type>();
-#if TEMP
+			List<Type> types = new List<Type>(); 
+#if TEMP // TODO
 			// Add the service contract interfaces
 			types.AddRange( GetServiceContractTypes( typeof( TInterface ) ) );
+#endif
 			// Add IDisposable
 			types.Add( typeof( IDisposable ) );
-#endif
 			// Return the types as an array
 			return types.ToArray();
 		}
