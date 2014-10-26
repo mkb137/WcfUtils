@@ -41,7 +41,7 @@ namespace Entropa.WcfUtils.Test {
 			IDisposable disposableClient = null;
 			try {
 				// Create the client
-				PrototypeFaultSafeServiceReferenceClient<MockContractClient> client = new PrototypeFaultSafeServiceReferenceClient<MockContractClient>() ;
+				PrototypeFaultSafeServiceReferenceClient client = new PrototypeFaultSafeServiceReferenceClient() ;
 				disposableClient = client;
 
 				_log.DebugFormat( " - calling service methods" );

@@ -14,8 +14,7 @@ namespace Entropa.WcfUtils.Test.Prototypes {
 	/// <summary>
 	///     This prototypes a fault safe wrapper around a ServiceClient object.
 	/// </summary>
-	internal sealed class PrototypeFaultSafeServiceReferenceClient<TClient> : IMockContract, IDisposable
-		where TClient : ClientBase<IMockContract>, IMockContract {
+	internal sealed class PrototypeFaultSafeServiceReferenceClient : IMockContract, IDisposable {
 
 		/// <summary>
 		/// The binding, if passed to the constructor.
@@ -40,7 +39,7 @@ namespace Entropa.WcfUtils.Test.Prototypes {
 		/// <summary>
 		/// The service reference client.
 		/// </summary>
-		private TClient						_client;
+		private MockContractClient			_client;
 
 		/// <summary>
 		///     The constructor.
@@ -170,54 +169,33 @@ namespace Entropa.WcfUtils.Test.Prototypes {
 		/// Creates the client object.
 		/// </summary>
 		/// <returns></returns>
-		private TClient CreateClient() {
-			TClient client;
+		private MockContractClient CreateClient() {
+			Type clientType = typeof( MockContractClient );
 			// If we were given the binding and remote address...
+			object obj;
 			if ( ( null != this._binding ) && ( null != this._remoteAddress ) ) {
-				// Find and use that constructor
-				ConstructorInfo constructorInfo = typeof( TClient ).GetConstructor( new []{ typeof( Binding ), typeof( EndpointAddress ) } );
-				if ( null != constructorInfo ) {
-					client = (TClient)constructorInfo.Invoke( new object[]{ this._binding, this._remoteAddress } );
-				} else {
-					throw new Exception( String.Format( "Could not find constructor of the format {0}( Binding, EndpointAddress )", typeof( TClient ).Name ) );
-				}
+				obj = Activator.CreateInstance( clientType, this._binding, this._remoteAddress );
 			} 
 			// If we were given the endpoint and remote address...
 			else if ( ( null != this._endpointConfigurationName ) && ( null != this._remoteAddress ) ) {
-				// Find and use that constructor
-				ConstructorInfo constructorInfo = typeof( TClient ).GetConstructor( new []{ typeof( string ), typeof( EndpointAddress ) } );
-				if ( null != constructorInfo ) {
-					client = (TClient)constructorInfo.Invoke( new object[]{ this._endpointConfigurationName, this._remoteAddress } );
-				} else {
-					throw new Exception( String.Format( "Could not find constructor of the format {0}( string, EndpointAddress )", typeof( TClient ).Name ) );
-				}
+				obj = Activator.CreateInstance( clientType, this._endpointConfigurationName, this._remoteAddress );
 			} 
 			// If we were given the endpoint alone...
 			else if ( null != this._endpointConfigurationName )  {
-				// Find and use that constructor
-				ConstructorInfo constructorInfo = typeof( TClient ).GetConstructor( new []{ typeof( string ) } );
-				if ( null != constructorInfo ) {
-					client = (TClient)constructorInfo.Invoke( new object[]{ this._endpointConfigurationName } );
-				} else {
-					throw new Exception( String.Format( "Could not find constructor of the format {0}( string )", typeof( TClient ).Name ) );
-				}
+				obj = Activator.CreateInstance( clientType, this._endpointConfigurationName );
 			} 
 			// If we were given nothing...
 			else {
-				// Find and use that constructor
-				ConstructorInfo constructorInfo = typeof( TClient ).GetConstructor( new Type[0] );
-				if ( null != constructorInfo ) {
-					client = (TClient)constructorInfo.Invoke( new object[0] );
-				} else {
-					throw new Exception( String.Format( "Could not find constructor of the format {0}()", typeof( TClient ).Name ) );
-				}				
+				obj = Activator.CreateInstance( clientType );
 			}
+			MockContractClient client = obj as MockContractClient;
+			if ( null == client ) throw new InvalidOperationException( "Could not create instance of MockContractClient" );
 			// If we were given username and password...
 			if ( ( null != this._userName ) && ( null != this._password ) ) {
 				if ( null != client.ClientCredentials ) {
 					client.ClientCredentials.Windows.ClientCredential = new NetworkCredential( this._userName, this._password );
 				} else {
-					throw new Exception( String.Format( "{0} client has no ClientCredentials", typeof( TClient ).Name ) );
+					throw new InvalidOperationException( "MockContractClient client has no ClientCredentials" );
 				}
 			}
 			return client;
