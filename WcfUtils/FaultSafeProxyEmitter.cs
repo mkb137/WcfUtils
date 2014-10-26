@@ -845,21 +845,6 @@ namespace Entropa.WcfUtils {
 		}
 
 		/// <summary>
-		/// Returns an array of the types of the parameters for a given method.
-		/// </summary>
-		/// <param name="method"></param>
-		/// <returns></returns>
-		private static Type[] GetParameterTypes( MethodInfo method ) {
-			ParameterInfo[] parameters = method.GetParameters();
-			Type[] parameterTypes = new Type[parameters.Length];
-			for ( int i = 0; i < parameters.Length; i++ ) {
-				ParameterInfo parameter = parameters[i];
-				parameterTypes[i] = parameter.ParameterType;
-			}
-			return parameterTypes;
-		}
-
-		/// <summary>
 		/// Implements the given operation contract method.
 		/// </summary>
 		/// <remarks><![CDATA[
@@ -949,7 +934,7 @@ namespace Entropa.WcfUtils {
 		/// <param name="typeBuilder"></param>
 		/// <param name="type"></param>
 		/// <param name="method"></param>
-		private void ImplementOperationContract( TypeBuilder typeBuilder, Type type, MethodInfo method ) {
+		protected override void ImplementOperationContract( TypeBuilder typeBuilder, Type type, MethodInfo method ) {
 			// Get the parameter types
 			Type[] parameterTypes = GetParameterTypes( method );
 			_log.DebugFormat( "ImplementOperationContract - type = {0}, method = {1}, return type = {2}, {3} parameters", type, method.Name, method.ReturnType, parameterTypes.Length );
@@ -1055,48 +1040,6 @@ namespace Entropa.WcfUtils {
 			il.Emit( OpCodes.Ret );
 			// The method overrides the method in the base type
 			//			typeBuilder.DefineMethodOverride( methodBuilder, method );
-		}
-
-		/// <summary>
-		/// Implements the operation contracts in the type.
-		/// </summary>
-		/// <param name="typeBuilder"></param>
-		/// <param name="types"></param>
-		private void ImplementOperationContracts( TypeBuilder typeBuilder, IEnumerable<Type> types ) {
-			foreach ( Type type in types ) {
-				this.ImplementOperationContracts( typeBuilder, type );
-			}
-		}
-
-		/// <summary>
-		/// Builds methods for the type's operation contracts.
-		/// </summary>
-		/// <param name="typeBuilder"></param>
-		/// <param name="type"></param>
-		private void ImplementOperationContracts( TypeBuilder typeBuilder, Type type ) {
-			_log.DebugFormat( "ImplementOperationContracts - type = '{0}'", type );
-			// For each method on the type...
-			MethodInfo[] methods = type.GetMethods();
-			foreach ( MethodInfo method in methods ) {
-				// If the method is an operation contract...
-				if ( null != method.GetCustomAttributes( typeof( OperationContractAttribute ) ) ) {
-					_log.DebugFormat( " - got operation contract '{0}'", method.Name );
-					// Implement it in the proxy
-					this.ImplementOperationContract( typeBuilder, type, method );
-
-				}
-			}
-		}
-
-		/// <summary>
-		/// Builds methods for each operation contract in the interface.
-		/// </summary>
-		/// <param name="typeBuilder"></param>
-		private void ImplementServiceContracts( TypeBuilder typeBuilder ) {
-			// Get all the interface types on our contract type
-			IEnumerable<Type> interfaceTypes = GetServiceContractTypes( typeof( TInterface ) );
-			// Implement the service contracts starting with our given type
-			this.ImplementOperationContracts( typeBuilder, interfaceTypes );
 		}
 
 		/// <summary>

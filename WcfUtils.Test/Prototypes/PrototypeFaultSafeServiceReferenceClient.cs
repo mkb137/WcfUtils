@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Reflection;
 using System.Security;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Threading.Tasks;
-using Entropa.WcfUtils.Test.MockServiceReference;
+using Entropa.WcfUtils.MockServiceReference.ServiceReference;
 using log4net;
 
 namespace Entropa.WcfUtils.Test.Prototypes {

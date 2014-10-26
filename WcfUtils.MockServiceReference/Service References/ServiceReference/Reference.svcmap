@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2c8847ef-25e4-4d1e-b995-6280eae61e0f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c417098e-bdc7-402e-b636-9439e0953567" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -24,10 +24,10 @@
     <MetadataSource Address="http://127.0.0.1:9006/MockService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="b408facf-8692-4abb-aa67-8f7f99737901" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="7671c266-a6e6-4ac6-a989-42ea837bd2a5" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="3e2687e8-e436-4c60-ba5f-f258102ec75e" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
-    <MetadataFile FileName="Entropa.WcfUtils.MockService.xsd" MetadataType="Schema" ID="f4e0a725-e5ae-4d04-b7f6-9df082f7c665" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="a14273e7-4159-42ee-b1b0-0081537da329" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="dd61e2f9-adb1-4ac7-b968-24005d56f46a" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="3f2e6c4e-c8be-417e-ac17-b97eff06ed99" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
+    <MetadataFile FileName="Entropa.WcfUtils.MockService.xsd" MetadataType="Schema" ID="015ecc7f-c6bc-49c2-95c7-61f15e8c62e0" SourceId="1" SourceUrl="http://127.0.0.1:9006/MockService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

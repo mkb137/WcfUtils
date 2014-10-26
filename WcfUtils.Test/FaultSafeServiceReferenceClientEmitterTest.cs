@@ -8,11 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using Entropa.WcfUtils.Test.MockServiceReference;
+using Entropa.WcfUtils.MockServiceReference.ServiceReference;
 using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IMockContract = Entropa.WcfUtils.Test.MockServiceReference.IMockContract;
-using MockObject = Entropa.WcfUtils.Test.MockServiceReference.MockObject;
 
 namespace Entropa.WcfUtils.Test {
 

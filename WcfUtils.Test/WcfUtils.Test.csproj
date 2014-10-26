@@ -64,13 +64,12 @@
     <Compile Include="PrototypeFaultSafeProxyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prototypes\PrototypeFaultSafeServiceReferenceClient.cs" />
-    <Compile Include="Service References\MockServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WcfUtils.MockServiceReference\WcfUtils.MockServiceReference.csproj">
+      <Project>{3b7fef77-fbc8-45cb-bf10-cef2e0c44d66}</Project>
+      <Name>WcfUtils.MockServiceReference</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WcfUtils.MockService\WcfUtils.MockService.csproj">
       <Project>{61dc2983-0da5-407e-ab41-1b1a538d9f32}</Project>
       <Name>WcfUtils.MockService</Name>
@@ -87,37 +86,9 @@
     </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Entropa.WcfUtils.MockService.MockObject.datasource" />
-    <None Include="Service References\MockServiceReference\Entropa.WcfUtils.MockService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MockServiceReference\Entropa.WcfUtils.Test.MockServiceReference.MockObject.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\MockServiceReference\service.wsdl" />
-    <None Include="Service References\MockServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MockServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\MockServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\MockServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\MockServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\MockServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

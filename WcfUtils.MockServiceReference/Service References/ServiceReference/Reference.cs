@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Entropa.WcfUtils.Test.MockServiceReference {
+namespace Entropa.WcfUtils.MockServiceReference.ServiceReference {
     using System.Runtime.Serialization;
     using System;
     
@@ -75,7 +75,7 @@ namespace Entropa.WcfUtils.Test.MockServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="MockServiceReference.IMockContract")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference.IMockContract")]
     public interface IMockContract {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMockContractBase/AddInt", ReplyAction="http://tempuri.org/IMockContractBase/AddIntResponse")]
@@ -139,14 +139,14 @@ namespace Entropa.WcfUtils.Test.MockServiceReference {
         System.Threading.Tasks.Task<int> DivideAsync(int a, int b);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMockContract/GetCollection", ReplyAction="http://tempuri.org/IMockContract/GetCollectionResponse")]
-        System.Collections.Generic.List<Entropa.WcfUtils.Test.MockServiceReference.MockObject> GetCollection(int noElements);
+        System.Collections.Generic.List<Entropa.WcfUtils.MockServiceReference.ServiceReference.MockObject> GetCollection(int noElements);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMockContract/GetCollection", ReplyAction="http://tempuri.org/IMockContract/GetCollectionResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.List<Entropa.WcfUtils.Test.MockServiceReference.MockObject>> GetCollectionAsync(int noElements);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Entropa.WcfUtils.MockServiceReference.ServiceReference.MockObject>> GetCollectionAsync(int noElements);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMockContract/MultipleParameterTypes", ReplyAction="http://tempuri.org/IMockContract/MultipleParameterTypesResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Collections.Generic.List<Entropa.WcfUtils.Test.MockServiceReference.MockObject>))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Entropa.WcfUtils.Test.MockServiceReference.MockObject))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Collections.Generic.List<Entropa.WcfUtils.MockServiceReference.ServiceReference.MockObject>))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Entropa.WcfUtils.MockServiceReference.ServiceReference.MockObject))]
         string MultipleParameterTypes(string a, object b, System.DateTime c, System.TimeSpan d, System.Nullable<double> e, System.Nullable<int> f);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMockContract/MultipleParameterTypes", ReplyAction="http://tempuri.org/IMockContract/MultipleParameterTypesResponse")]
@@ -184,12 +184,12 @@ namespace Entropa.WcfUtils.Test.MockServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IMockContractChannel : Entropa.WcfUtils.Test.MockServiceReference.IMockContract, System.ServiceModel.IClientChannel {
+    public interface IMockContractChannel : Entropa.WcfUtils.MockServiceReference.ServiceReference.IMockContract, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class MockContractClient : System.ServiceModel.ClientBase<Entropa.WcfUtils.Test.MockServiceReference.IMockContract>, Entropa.WcfUtils.Test.MockServiceReference.IMockContract {
+    public partial class MockContractClient : System.ServiceModel.ClientBase<Entropa.WcfUtils.MockServiceReference.ServiceReference.IMockContract>, Entropa.WcfUtils.MockServiceReference.ServiceReference.IMockContract {
         
         public MockContractClient() {
         }
@@ -290,11 +290,11 @@ namespace Entropa.WcfUtils.Test.MockServiceReference {
             return base.Channel.DivideAsync(a, b);
         }
         
-        public System.Collections.Generic.List<Entropa.WcfUtils.Test.MockServiceReference.MockObject> GetCollection(int noElements) {
+        public System.Collections.Generic.List<Entropa.WcfUtils.MockServiceReference.ServiceReference.MockObject> GetCollection(int noElements) {
             return base.Channel.GetCollection(noElements);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<Entropa.WcfUtils.Test.MockServiceReference.MockObject>> GetCollectionAsync(int noElements) {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Entropa.WcfUtils.MockServiceReference.ServiceReference.MockObject>> GetCollectionAsync(int noElements) {
             return base.Channel.GetCollectionAsync(noElements);
         }
         

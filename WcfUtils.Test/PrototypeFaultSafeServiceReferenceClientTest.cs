@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using Entropa.WcfUtils.MockService;
-using Entropa.WcfUtils.Test.MockServiceReference;
 using Entropa.WcfUtils.Test.Prototypes;
 using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IMockContract = Entropa.WcfUtils.Test.MockServiceReference.IMockContract;
-using MockObject = Entropa.WcfUtils.Test.MockServiceReference.MockObject;
+using Entropa.WcfUtils.MockServiceReference.ServiceReference;
 
 namespace Entropa.WcfUtils.Test {
 
 	/// <summary>
-	/// This tests the <see cref="PrototypeFaultSafeServiceReferenceClient{TInterface,TClient}"/> prototype.
+	/// This tests the <see cref="PrototypeFaultSafeServiceReferenceClient"/> prototype.
 	/// </summary>
 	[TestClass]
 	public class PrototypeFaultSafeServiceReferenceClientTest {
@@ -33,7 +30,7 @@ namespace Entropa.WcfUtils.Test {
 		public void TestPrototype() {
 			// Create the host
 			_log.DebugFormat( " - creating host" );
-			ServiceHost host = new ServiceHost( typeof( MockServiceImpl ) );
+			ServiceHost host = new ServiceHost( typeof( MockService.MockServiceImpl ) );
 			_log.DebugFormat( " - opening host" );
 			host.Open();
 			_log.DebugFormat( " - host open" );

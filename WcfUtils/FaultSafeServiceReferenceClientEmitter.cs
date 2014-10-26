@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -245,6 +246,10 @@ namespace Entropa.WcfUtils {
 		#region Proxy Generation Methods
 
 		/// <summary>
+		/// The Abort method.
+		/// </summary>
+		private  MethodBuilder	_abortMethod;
+		/// <summary>
 		/// The binding field, a Binding.
 		/// </summary>
 		private FieldBuilder	_bindingField;
@@ -253,9 +258,21 @@ namespace Entropa.WcfUtils {
 		/// </summary>
 		private FieldBuilder	 _clientField;
 		/// <summary>
+		/// The Close method.
+		/// </summary>
+		private  MethodBuilder	_closeMethod;
+		/// <summary>
+		/// The CreateClient method.
+		/// </summary>
+		private  MethodBuilder	_createClientMethod;
+		/// <summary>
 		/// The endpoint configuration name field, a string.
 		/// </summary>
 		private FieldBuilder	_endpointConfigurationNameField;
+		/// <summary>
+		/// The GetClient method.
+		/// </summary>
+		private  MethodBuilder	_getClientMethod;
 		/// <summary>
 		/// The password field, a SecureString.
 		/// </summary>
@@ -268,28 +285,221 @@ namespace Entropa.WcfUtils {
 		/// The username field, a string.
 		/// </summary>
 		private FieldBuilder	_userNameField;
-		/// <summary>
-		/// The Abort method.
-		/// </summary>
-		private  MethodBuilder	_abortMethod;
-		/// <summary>
-		/// The Close method.
-		/// </summary>
-		private  MethodBuilder	_closeMethod;
-		/// <summary>
-		/// The CreateClient method.
-		/// </summary>
-		private  MethodBuilder	_createClientMethod;
-		/// <summary>
-		/// The GetClient method.
-		/// </summary>
-		private  MethodBuilder	_getClientMethod;
 
 		/// <summary>
 		/// <see cref="FaultSafeEmitterBase{TInterface}.AssemblyName"/>
 		/// </summary>
 		protected override string AssemblyName {
 			get { return "FaultSafeServiceReferenceClientAssembly"; }
+		}
+
+		/// <summary>
+		/// Builds the "Abort" method.
+		/// </summary>
+		/// <remarks><![CDATA[
+		///.method private hidebysig instance void  Abort() cil managed
+		///{
+		///  // Code size       39 (0x27)
+		///  .maxstack  2
+		///  .locals init (bool V_0)
+		///  IL_0000:  nop
+		///  IL_0001:  ldnull
+		///  IL_0002:  ldarg.0
+		///  IL_0003:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+		///  IL_0008:  ceq
+		///  IL_000a:  ldc.i4.0
+		///  IL_000b:  ceq
+		///  IL_000d:  stloc.0
+		///  IL_000e:  ldloc.0
+		///  IL_000f:  brtrue.s   IL_0013
+		///  IL_0011:  br.s       IL_0026
+		///  IL_0013:  ldarg.0
+		///  IL_0014:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+		///  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Abort()
+		///  IL_001e:  nop
+		///  IL_001f:  ldarg.0
+		///  IL_0020:  ldnull
+		///  IL_0021:  stfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+		///  IL_0026:  ret
+		///} // end of method PrototypeFaultSafeServiceReferenceClient::Abort
+		///
+		/// ]]></remarks>
+		/// <param name="typeBuilder"></param>
+		private void BuildAbortMethod( TypeBuilder typeBuilder ) {
+			this._abortMethod = typeBuilder.DefineMethod(
+				"Abort",
+				MethodAttributes.Private | MethodAttributes.HideBySig,
+				CallingConventions.Standard,
+				null,
+				new Type[0]
+				);
+			ILGenerator il = this._abortMethod.GetILGenerator();
+
+			MethodInfo clientAbortMethodInfo = typeof( TClient ).GetMethod( "Abort" );
+			if ( null == clientAbortMethodInfo ) throw new InvalidOperationException( String.Format( "Type '{0}' has no Abort method.", typeof( TClient ) ) );
+
+			// Define some labels ahead of time
+			Label label0013 = il.DefineLabel();
+			Label label0026 = il.DefineLabel();
+
+			//  .locals init (bool V_0)
+			il.DeclareLocal( typeof( bool ) );
+
+			//  IL_0000:  nop
+			//  IL_0001:  ldnull
+			//  IL_0002:  ldarg.0
+			//  IL_0003:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+			//  IL_0008:  ceq
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ldnull );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Ldfld, this._clientField );
+			il.Emit( OpCodes.Ceq );
+
+			//  IL_000a:  ldc.i4.0
+			//  IL_000b:  ceq
+			//  IL_000d:  stloc.0
+			il.Emit( OpCodes.Ldc_I4_0 );
+			il.Emit( OpCodes.Ceq );
+			il.Emit( OpCodes.Stloc_0 );
+
+			//  IL_000e:  ldloc.0
+			//  IL_000f:  brtrue.s   IL_0013
+			//  IL_0011:  br.s       IL_0026
+			il.Emit( OpCodes.Ldloc_0 );
+			il.Emit( OpCodes.Brtrue_S, label0013 );
+			il.Emit( OpCodes.Br_S, label0026 );
+
+			//  IL_0013:  ldarg.0
+			//  IL_0014:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+			//  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Abort()
+			il.MarkLabel( label0013 );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Ldflda, this._clientField );
+			il.Emit( OpCodes.Callvirt, clientAbortMethodInfo );
+
+			//  IL_001e:  nop
+			//  IL_001f:  ldarg.0
+			//  IL_0020:  ldnull
+			//  IL_0021:  stfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Ldnull );
+			il.Emit( OpCodes.Stfld, this._clientField );
+
+			//  IL_0026:  ret
+			il.MarkLabel( label0026 );
+			il.Emit( OpCodes.Ret );
+		}
+
+		/// <summary>
+		/// Builds the client control methods Abort, Close, CreateClient(), and GetClient()
+		/// </summary>
+		/// <param name="typeBuilder"></param>
+		private void BuildClientControlMethods( TypeBuilder typeBuilder ) {
+			this.BuildAbortMethod( typeBuilder );
+			this.BuildCloseMethod( typeBuilder );
+			this.BuildCreateClientMethod( typeBuilder );
+			this.BuildGetClientMethod( typeBuilder );
+		}
+
+		/// <summary>
+		/// Builds the "Close" method.
+		/// </summary>
+		/// <remarks><![CDATA[
+		///.method private hidebysig instance void  Close() cil managed
+		///{
+		///  // Code size       39 (0x27)
+		///  .maxstack  2
+		///  .locals init (bool V_0)
+		///  IL_0000:  nop
+		///  IL_0001:  ldnull
+		///  IL_0002:  ldarg.0
+		///  IL_0003:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+		///  IL_0008:  ceq
+		///  IL_000a:  ldc.i4.0
+		///  IL_000b:  ceq
+		///  IL_000d:  stloc.0
+		///  IL_000e:  ldloc.0
+		///  IL_000f:  brtrue.s   IL_0013
+		///  IL_0011:  br.s       IL_0026
+		///  IL_0013:  ldarg.0
+		///  IL_0014:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+		///  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Close()
+		///  IL_001e:  nop
+		///  IL_001f:  ldarg.0
+		///  IL_0020:  ldnull
+		///  IL_0021:  stfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+		///  IL_0026:  ret
+		///} // end of method PrototypeFaultSafeServiceReferenceClient::Close
+		/// 
+		/// ]]></remarks>
+		/// <param name="typeBuilder"></param>
+		private void BuildCloseMethod( TypeBuilder typeBuilder ) {
+			this._closeMethod = typeBuilder.DefineMethod(
+				"Close",
+				MethodAttributes.Private | MethodAttributes.HideBySig,
+				CallingConventions.Standard,
+				null,
+				new Type[0]
+				);
+			ILGenerator il = this._closeMethod.GetILGenerator();
+
+			MethodInfo clientCloseMethodInfo = typeof( TClient ).GetMethod( "Close" );
+			if ( null == clientCloseMethodInfo ) throw new InvalidOperationException( String.Format( "Type '{0}' has no Close method.", typeof( TClient ) ) );
+
+			// Define some labels ahead of time
+			Label label0013 = il.DefineLabel();
+			Label label0026 = il.DefineLabel();
+
+			//  .locals init (bool V_0)
+			il.DeclareLocal( typeof( bool ) );
+
+			//  IL_0000:  nop
+			//  IL_0001:  ldnull
+			//  IL_0002:  ldarg.0
+			//  IL_0003:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+			//  IL_0008:  ceq
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ldnull );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Ldfld, this._clientField );
+			il.Emit( OpCodes.Ceq );
+
+			//  IL_000a:  ldc.i4.0
+			//  IL_000b:  ceq
+			//  IL_000d:  stloc.0
+			il.Emit( OpCodes.Ldc_I4_0 );
+			il.Emit( OpCodes.Ceq );
+			il.Emit( OpCodes.Stloc_0 );
+
+			//  IL_000e:  ldloc.0
+			//  IL_000f:  brtrue.s   IL_0013
+			//  IL_0011:  br.s       IL_0026
+			il.Emit( OpCodes.Ldloc_0 );
+			il.Emit( OpCodes.Brtrue_S, label0013 );
+			il.Emit( OpCodes.Br_S, label0026 );
+
+			//  IL_0013:  ldarg.0
+			//  IL_0014:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+			//  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Close()
+			il.MarkLabel( label0013 );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Ldflda, this._clientField );
+			il.Emit( OpCodes.Callvirt, clientCloseMethodInfo );
+
+			//  IL_001e:  nop
+			//  IL_001f:  ldarg.0
+			//  IL_0020:  ldnull
+			//  IL_0021:  stfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Ldnull );
+			il.Emit( OpCodes.Stfld, this._clientField );
+
+			//  IL_0026:  ret
+			il.MarkLabel( label0026 );
+			il.Emit( OpCodes.Ret );
 		}
 
 		/// <summary>
@@ -460,309 +670,6 @@ namespace Entropa.WcfUtils {
 			this.BuildConstructor_Endpoint_Auth( typeBuilder );
 			this.BuildConstructor_EndpointRemoteAddress_Auth( typeBuilder );
 			this.BuildConstructor_BindingRemoteAddress_Auth( typeBuilder );
-		}
-
-		/// <summary>
-		/// Builds the fields on the type.
-		/// </summary>
-		/// <param name="typeBuilder"></param>
-		private void BuildFields( TypeBuilder typeBuilder ) {
-			this._clientField = typeBuilder.DefineField(
-				"_client",
-				typeof( TClient ),
-				FieldAttributes.Private
-				);
-			this._bindingField = typeBuilder.DefineField(
-				"_binding",
-				typeof( Binding ),
-				FieldAttributes.Private | FieldAttributes.InitOnly
-				);
-			this._endpointConfigurationNameField = typeBuilder.DefineField(
-				"_endpointConfigurationName",
-				typeof( string ),
-				FieldAttributes.Private | FieldAttributes.InitOnly
-				);
-			this._passwordField = typeBuilder.DefineField(
-				"_password",
-				typeof( SecureString ),
-				FieldAttributes.Private | FieldAttributes.InitOnly
-				);
-			this._remoteAddressField = typeBuilder.DefineField(
-				"_remoteAddress",
-				typeof( EndpointAddress ),
-				FieldAttributes.Private | FieldAttributes.InitOnly
-				);
-			this._userNameField = typeBuilder.DefineField(
-				"_userName",
-				typeof( string ),
-				FieldAttributes.Private | FieldAttributes.InitOnly
-				);			
-		}
-
-		/// <summary>
-		/// This builds our proxy type.
-		/// </summary>
-		/// <param name="typeBuilder"></param>
-		private void BuildType( TypeBuilder typeBuilder ) {
-			_log.DebugFormat( "BuildType" );
-			this.BuildFields( typeBuilder );
-			this.BuildConstructors( typeBuilder );
-			this.BuildClientControlMethods( typeBuilder );
-			this.ImplementIDisposable( typeBuilder );
-			this.ImplementServiceContracts( typeBuilder );
-		}
-
-		/// <summary>
-		/// Builds the methods to implment the service constract interfaces.
-		/// </summary>
-		/// <param name="typeBuilder"></param>
-		private void ImplementServiceContracts( TypeBuilder typeBuilder ) {
-			// TODO
-		}
-
-		/// <summary>
-		/// Builds the Dispose method.
-		/// </summary>
-		/// <remarks><![CDATA[
-		/// .method public hidebysig newslot virtual final 
-		///        instance void  Dispose() cil managed
-		///{
-		///  // Code size       9 (0x9)
-		///  .maxstack  8
-		///  IL_0000:  nop
-		///  IL_0001:  ldarg.0
-		///  IL_0002:  call       instance void Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::Close()
-		///  IL_0007:  nop
-		///  IL_0008:  ret
-		///} // end of method PrototypeFaultSafeServiceReferenceClient::Dispose
-		/// ]]></remarks>
-		/// <param name="typeBuilder"></param>
-		private void ImplementIDisposable( TypeBuilder typeBuilder ) {
-			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
-				"Dispose",
-				MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
-				CallingConventions.Standard,
-				null,
-				new Type[0]
-				);
-			ILGenerator il = methodBuilder.GetILGenerator();
-			il.Emit( OpCodes.Nop );
-			il.Emit( OpCodes.Ldarg_0 );
-			il.Emit( OpCodes.Call, this._closeMethod );
-			il.Emit( OpCodes.Nop );
-			il.Emit( OpCodes.Ret );
-			// Set that this overrides IDisposable.Dispose
-			typeBuilder.DefineMethodOverride( methodBuilder, typeof( IDisposable ).GetMethod( "Dispose", new Type[0] ) );
-		}
-
-		/// <summary>
-		/// Builds the client control methods Abort, Close, CreateClient(), and GetClient()
-		/// </summary>
-		/// <param name="typeBuilder"></param>
-		private void BuildClientControlMethods( TypeBuilder typeBuilder ) {
-			this.BuildAbortMethod( typeBuilder );
-			this.BuildCloseMethod( typeBuilder );
-			this.BuildCreateClientMethod( typeBuilder );
-			this.BuildGetClientMethod( typeBuilder );
-		}
-
-		/// <summary>
-		/// Builds the "Abort" method.
-		/// </summary>
-		/// <remarks><![CDATA[
-		///.method private hidebysig instance void  Abort() cil managed
-		///{
-		///  // Code size       39 (0x27)
-		///  .maxstack  2
-		///  .locals init (bool V_0)
-		///  IL_0000:  nop
-		///  IL_0001:  ldnull
-		///  IL_0002:  ldarg.0
-		///  IL_0003:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-		///  IL_0008:  ceq
-		///  IL_000a:  ldc.i4.0
-		///  IL_000b:  ceq
-		///  IL_000d:  stloc.0
-		///  IL_000e:  ldloc.0
-		///  IL_000f:  brtrue.s   IL_0013
-		///  IL_0011:  br.s       IL_0026
-		///  IL_0013:  ldarg.0
-		///  IL_0014:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-		///  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Abort()
-		///  IL_001e:  nop
-		///  IL_001f:  ldarg.0
-		///  IL_0020:  ldnull
-		///  IL_0021:  stfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-		///  IL_0026:  ret
-		///} // end of method PrototypeFaultSafeServiceReferenceClient::Abort
-		///
-		/// ]]></remarks>
-		/// <param name="typeBuilder"></param>
-		private void BuildAbortMethod( TypeBuilder typeBuilder ) {
-			this._abortMethod = typeBuilder.DefineMethod(
-				"Abort",
-				MethodAttributes.Private | MethodAttributes.HideBySig,
-				CallingConventions.Standard,
-				null,
-				new Type[0]
-				);
-			ILGenerator il = this._abortMethod.GetILGenerator();
-
-			MethodInfo clientAbortMethodInfo = typeof( TClient ).GetMethod( "Abort" );
-			if ( null == clientAbortMethodInfo ) throw new InvalidOperationException( String.Format( "Type '{0}' has no Abort method.", typeof( TClient ) ) );
-
-			// Define some labels ahead of time
-			Label label0013 = il.DefineLabel();
-			Label label0026 = il.DefineLabel();
-
-			//  .locals init (bool V_0)
-			il.DeclareLocal( typeof( bool ) );
-
-			//  IL_0000:  nop
-			//  IL_0001:  ldnull
-			//  IL_0002:  ldarg.0
-			//  IL_0003:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-			//  IL_0008:  ceq
-			il.Emit( OpCodes.Nop );
-			il.Emit( OpCodes.Ldnull );
-			il.Emit( OpCodes.Ldarg_0 );
-			il.Emit( OpCodes.Ldfld, this._clientField );
-			il.Emit( OpCodes.Ceq );
-
-			//  IL_000a:  ldc.i4.0
-			//  IL_000b:  ceq
-			//  IL_000d:  stloc.0
-			il.Emit( OpCodes.Ldc_I4_0 );
-			il.Emit( OpCodes.Ceq );
-			il.Emit( OpCodes.Stloc_0 );
-
-			//  IL_000e:  ldloc.0
-			//  IL_000f:  brtrue.s   IL_0013
-			//  IL_0011:  br.s       IL_0026
-			il.Emit( OpCodes.Ldloc_0 );
-			il.Emit( OpCodes.Brtrue_S, label0013 );
-			il.Emit( OpCodes.Br_S, label0026 );
-
-			//  IL_0013:  ldarg.0
-			//  IL_0014:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-			//  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Abort()
-			il.MarkLabel( label0013 );
-			il.Emit( OpCodes.Ldarg_0 );
-			il.Emit( OpCodes.Ldflda, this._clientField );
-			il.Emit( OpCodes.Callvirt, clientAbortMethodInfo );
-
-			//  IL_001e:  nop
-			//  IL_001f:  ldarg.0
-			//  IL_0020:  ldnull
-			//  IL_0021:  stfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-			il.Emit( OpCodes.Nop );
-			il.Emit( OpCodes.Ldarg_0 );
-			il.Emit( OpCodes.Ldnull );
-			il.Emit( OpCodes.Stfld, this._clientField );
-
-			//  IL_0026:  ret
-			il.MarkLabel( label0026 );
-			il.Emit( OpCodes.Ret );
-		}
-
-
-		/// <summary>
-		/// Builds the "Close" method.
-		/// </summary>
-		/// <remarks><![CDATA[
-		///.method private hidebysig instance void  Close() cil managed
-		///{
-		///  // Code size       39 (0x27)
-		///  .maxstack  2
-		///  .locals init (bool V_0)
-		///  IL_0000:  nop
-		///  IL_0001:  ldnull
-		///  IL_0002:  ldarg.0
-		///  IL_0003:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-		///  IL_0008:  ceq
-		///  IL_000a:  ldc.i4.0
-		///  IL_000b:  ceq
-		///  IL_000d:  stloc.0
-		///  IL_000e:  ldloc.0
-		///  IL_000f:  brtrue.s   IL_0013
-		///  IL_0011:  br.s       IL_0026
-		///  IL_0013:  ldarg.0
-		///  IL_0014:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-		///  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Close()
-		///  IL_001e:  nop
-		///  IL_001f:  ldarg.0
-		///  IL_0020:  ldnull
-		///  IL_0021:  stfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-		///  IL_0026:  ret
-		///} // end of method PrototypeFaultSafeServiceReferenceClient::Close
-		/// 
-		/// ]]></remarks>
-		/// <param name="typeBuilder"></param>
-		private void BuildCloseMethod( TypeBuilder typeBuilder ) {
-			this._closeMethod = typeBuilder.DefineMethod(
-				"Close",
-				MethodAttributes.Private | MethodAttributes.HideBySig,
-				CallingConventions.Standard,
-				null,
-				new Type[0]
-				);
-			ILGenerator il = this._closeMethod.GetILGenerator();
-
-			MethodInfo clientCloseMethodInfo = typeof( TClient ).GetMethod( "Close" );
-			if ( null == clientCloseMethodInfo ) throw new InvalidOperationException( String.Format( "Type '{0}' has no Close method.", typeof( TClient ) ) );
-
-			// Define some labels ahead of time
-			Label label0013 = il.DefineLabel();
-			Label label0026 = il.DefineLabel();
-
-			//  .locals init (bool V_0)
-			il.DeclareLocal( typeof( bool ) );
-
-			//  IL_0000:  nop
-			//  IL_0001:  ldnull
-			//  IL_0002:  ldarg.0
-			//  IL_0003:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-			//  IL_0008:  ceq
-			il.Emit( OpCodes.Nop );
-			il.Emit( OpCodes.Ldnull );
-			il.Emit( OpCodes.Ldarg_0 );
-			il.Emit( OpCodes.Ldfld, this._clientField );
-			il.Emit( OpCodes.Ceq );
-
-			//  IL_000a:  ldc.i4.0
-			//  IL_000b:  ceq
-			//  IL_000d:  stloc.0
-			il.Emit( OpCodes.Ldc_I4_0 );
-			il.Emit( OpCodes.Ceq );
-			il.Emit( OpCodes.Stloc_0 );
-
-			//  IL_000e:  ldloc.0
-			//  IL_000f:  brtrue.s   IL_0013
-			//  IL_0011:  br.s       IL_0026
-			il.Emit( OpCodes.Ldloc_0 );
-			il.Emit( OpCodes.Brtrue_S, label0013 );
-			il.Emit( OpCodes.Br_S, label0026 );
-
-			//  IL_0013:  ldarg.0
-			//  IL_0014:  ldfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-			//  IL_0019:  callvirt   instance void class [System.ServiceModel]System.ServiceModel.ClientBase`1<class Entropa.WcfUtils.Test.MockServiceReference.IMockContract>::Close()
-			il.MarkLabel( label0013 );
-			il.Emit( OpCodes.Ldarg_0 );
-			il.Emit( OpCodes.Ldflda, this._clientField );
-			il.Emit( OpCodes.Callvirt, clientCloseMethodInfo );
-
-			//  IL_001e:  nop
-			//  IL_001f:  ldarg.0
-			//  IL_0020:  ldnull
-			//  IL_0021:  stfld      class Entropa.WcfUtils.Test.MockServiceReference.MockContractClient Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::_client
-			il.Emit( OpCodes.Nop );
-			il.Emit( OpCodes.Ldarg_0 );
-			il.Emit( OpCodes.Ldnull );
-			il.Emit( OpCodes.Stfld, this._clientField );
-
-			//  IL_0026:  ret
-			il.MarkLabel( label0026 );
-			il.Emit( OpCodes.Ret );
 		}
 
 		/// <summary>
@@ -1022,7 +929,7 @@ namespace Entropa.WcfUtils {
 			//  IL_0006:  call       class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
 			//  IL_000b:  stloc.0
 			il.Emit( OpCodes.Nop );
-			il.Emit( OpCodes.Ldtoken, typeof( TClient ) ); // TODO .FullName?
+			il.Emit( OpCodes.Ldtoken, typeof( TClient ) );
 			il.Emit( OpCodes.Call, getTypeFromHandleMethodInfo );
 			il.Emit( OpCodes.Stloc_0 );
 
@@ -1373,6 +1280,43 @@ namespace Entropa.WcfUtils {
 		}
 
 		/// <summary>
+		/// Builds the fields on the type.
+		/// </summary>
+		/// <param name="typeBuilder"></param>
+		private void BuildFields( TypeBuilder typeBuilder ) {
+			this._clientField = typeBuilder.DefineField(
+				"_client",
+				typeof( TClient ),
+				FieldAttributes.Private
+				);
+			this._bindingField = typeBuilder.DefineField(
+				"_binding",
+				typeof( Binding ),
+				FieldAttributes.Private | FieldAttributes.InitOnly
+				);
+			this._endpointConfigurationNameField = typeBuilder.DefineField(
+				"_endpointConfigurationName",
+				typeof( string ),
+				FieldAttributes.Private | FieldAttributes.InitOnly
+				);
+			this._passwordField = typeBuilder.DefineField(
+				"_password",
+				typeof( SecureString ),
+				FieldAttributes.Private | FieldAttributes.InitOnly
+				);
+			this._remoteAddressField = typeBuilder.DefineField(
+				"_remoteAddress",
+				typeof( EndpointAddress ),
+				FieldAttributes.Private | FieldAttributes.InitOnly
+				);
+			this._userNameField = typeBuilder.DefineField(
+				"_userName",
+				typeof( string ),
+				FieldAttributes.Private | FieldAttributes.InitOnly
+				);			
+		}
+
+		/// <summary>
 		/// Builds the "GetClient" method.
 		/// </summary>
 		/// <remarks><![CDATA[
@@ -1480,6 +1424,19 @@ namespace Entropa.WcfUtils {
 		}
 
 		/// <summary>
+		/// This builds our proxy type.
+		/// </summary>
+		/// <param name="typeBuilder"></param>
+		private void BuildType( TypeBuilder typeBuilder ) {
+			_log.DebugFormat( "BuildType" );
+			this.BuildFields( typeBuilder );
+			this.BuildConstructors( typeBuilder );
+			this.BuildClientControlMethods( typeBuilder );
+			this.ImplementIDisposable( typeBuilder );
+			this.ImplementServiceContracts( typeBuilder );
+		}
+
+		/// <summary>
 		/// Emits the call to the base Object constructor.
 		/// </summary>
 		/// <param name="il"></param>
@@ -1549,6 +1506,240 @@ namespace Entropa.WcfUtils {
 
 			ILGenerator il = constructorBuilder.GetILGenerator();
 			return il;
+		}
+
+		/// <summary>
+		/// Builds the Dispose method.
+		/// </summary>
+		/// <remarks><![CDATA[
+		/// .method public hidebysig newslot virtual final 
+		///        instance void  Dispose() cil managed
+		///{
+		///  // Code size       9 (0x9)
+		///  .maxstack  8
+		///  IL_0000:  nop
+		///  IL_0001:  ldarg.0
+		///  IL_0002:  call       instance void Entropa.WcfUtils.Test.Prototypes.PrototypeFaultSafeServiceReferenceClient::Close()
+		///  IL_0007:  nop
+		///  IL_0008:  ret
+		///} // end of method PrototypeFaultSafeServiceReferenceClient::Dispose
+		/// ]]></remarks>
+		/// <param name="typeBuilder"></param>
+		private void ImplementIDisposable( TypeBuilder typeBuilder ) {
+			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
+				"Dispose",
+				MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
+				CallingConventions.Standard,
+				null,
+				new Type[0]
+				);
+			ILGenerator il = methodBuilder.GetILGenerator();
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Call, this._closeMethod );
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ret );
+			// Set that this overrides IDisposable.Dispose
+			typeBuilder.DefineMethodOverride( methodBuilder, typeof( IDisposable ).GetMethod( "Dispose", new Type[0] ) );
+		}
+
+
+		/// <summary>
+		/// Implements the given operation contract method.
+		/// </summary>
+		/// <remarks><![CDATA[
+		/// Note: The following is an example.  There are changes based on whether the object takes parameters or returns a value.
+		///  .method public hidebysig newslot virtual final 
+		///          instance string  MultipleParameterTypes(string a,
+		///                                                  object b,
+		///                                                  valuetype [mscorlib]System.DateTime c,
+		///                                                  valuetype [mscorlib]System.TimeSpan d,
+		///                                                  valuetype [mscorlib]System.Nullable`1<float64> e,
+		///                                                  valuetype [mscorlib]System.Nullable`1<int32> f) cil managed
+		///  {
+		///    // Code size       39 (0x27)
+		///    .maxstack  7
+		///    .locals init ([0] string CS$1$0000)
+		///    IL_0000:  nop
+		///    .try
+		///    {
+		///      IL_0001:  nop
+		///      IL_0002:  ldarg.0
+		///      IL_0003:  call       instance class TestProxyGenerator.Prototype.IMockContract TestProxyGenerator.Prototype.FaultSafeProxy::GetChannel()
+		///      IL_0008:  ldarg.1
+		///      IL_0009:  ldarg.2
+		///      IL_000a:  ldarg.3
+		///      IL_000b:  ldarg.s    d
+		///      IL_000d:  ldarg.s    e
+		///      IL_000f:  ldarg.s    f
+		///      IL_0011:  callvirt   instance string TestProxyGenerator.Prototype.IMockContract::MultipleParameterTypes(string,
+		///                                                                                                              object,
+		///                                                                                                              valuetype [mscorlib]System.DateTime,
+		///                                                                                                              valuetype [mscorlib]System.TimeSpan,
+		///                                                                                                              valuetype [mscorlib]System.Nullable`1<float64>,
+		///                                                                                                              valuetype [mscorlib]System.Nullable`1<int32>)
+		///      IL_0016:  stloc.0
+		///      IL_0017:  leave.s    IL_0024
+		///
+		///    }  // end .try
+		///    catch [mscorlib]System.Exception 
+		///    {
+		///      IL_0019:  pop
+		///      IL_001a:  nop
+		///      IL_001b:  ldarg.0
+		///      IL_001c:  call       instance void TestProxyGenerator.Prototype.FaultSafeProxy::Abort()
+		///      IL_0021:  nop
+		///      IL_0022:  rethrow
+		///    }  // end handler
+		///    IL_0024:  nop
+		///    IL_0025:  ldloc.0
+		///    IL_0026:  ret
+		///  } // end of method FaultSafeProxy::MultipleParameterTypes
+		/// 
+		/// 
+		/// 
+		/// ***************************************************************
+		/// This method takes no paremeters and returns no values:
+		/// 
+		///  .method public hidebysig newslot virtual final 
+		///          instance void  NoParameterNoReturn() cil managed
+		///  {
+		///    // Code size       30 (0x1e)
+		///    .maxstack  1
+		///    IL_0000:  nop
+		///    .try
+		///    {
+		///      IL_0001:  nop
+		///      IL_0002:  ldarg.0
+		///      IL_0003:  call       instance class TestProxyGenerator.Prototype.IMockContract TestProxyGenerator.Prototype.FaultSafeProxy::GetChannel()
+		///      IL_0008:  callvirt   instance void TestProxyGenerator.Prototype.IMockContract::NoParameterNoReturn()
+		///      IL_000d:  nop
+		///      IL_000e:  nop
+		///      IL_000f:  leave.s    IL_001c
+		///
+		///    }  // end .try
+		///    catch [mscorlib]System.Exception 
+		///    {
+		///      IL_0011:  pop
+		///      IL_0012:  nop
+		///      IL_0013:  ldarg.0
+		///      IL_0014:  call       instance void TestProxyGenerator.Prototype.FaultSafeProxy::Abort()
+		///      IL_0019:  nop
+		///      IL_001a:  rethrow
+		///    }  // end handler
+		///    IL_001c:  nop
+		///    IL_001d:  ret
+		///  } // end of method FaultSafeProxy::NoParameterNoReturn
+		/// ]]></remarks>
+		/// <param name="typeBuilder"></param>
+		/// <param name="type"></param>
+		/// <param name="method"></param>
+		protected override void ImplementOperationContract( TypeBuilder typeBuilder, Type type, MethodInfo method ) {
+			// Get the parameter types
+			Type[] parameterTypes = GetParameterTypes( method );
+			_log.DebugFormat( "ImplementOperationContract - type = {0}, method = {1}, return type = {2}, {3} parameters", type, method.Name, method.ReturnType, parameterTypes.Length );
+			// Figure out if we have a return type
+			bool hasReturnType = !String.Equals( method.ReturnType.FullName, "System.Void", StringComparison.InvariantCultureIgnoreCase );
+			// Create the method
+			MethodBuilder methodBuilder = typeBuilder.DefineMethod(
+				method.Name,
+				MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
+				CallingConventions.Standard,
+				method.ReturnType,
+				parameterTypes
+				);
+			// Get the IL generator
+			ILGenerator il = methodBuilder.GetILGenerator();
+			// Declare some labels
+			Label endLabel = il.DefineLabel();
+			// If there's a return type...
+			if ( hasReturnType ) {
+				// Declare a local variable for it
+				//    .locals init ([0] string CS$1$0000)
+				il.DeclareLocal( method.ReturnType );
+			}
+			//    IL_0000:  nop
+			il.Emit( OpCodes.Nop );
+
+			// Start the "try" and get the channel
+			//    .try
+			//    {
+			//      IL_0001:  nop
+			//      IL_0002:  ldarg.0
+			//      IL_0003:  call       instance class TestProxyGenerator.Prototype.IMockContract TestProxyGenerator.Prototype.FaultSafeProxy::GetChannel()
+			il.BeginExceptionBlock();
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Call, this._getClientMethod );
+
+			// Load all the types we'll need.  We have a built-in 3 and more than three have to be added 
+			//      IL_0008:  ldarg.1
+			if ( parameterTypes.Length > 0 ) {
+				il.Emit( OpCodes.Ldarg_1 );
+			}
+			//      IL_0009:  ldarg.2
+			if ( parameterTypes.Length > 1 ) {
+				il.Emit( OpCodes.Ldarg_2 );
+			}
+			//      IL_000a:  ldarg.3
+			if ( parameterTypes.Length > 2 ) {
+				il.Emit( OpCodes.Ldarg_3 );
+			}
+			//      IL_000b:  ldarg.s    d
+			//      IL_000d:  ldarg.s    e
+			//      IL_000f:  ldarg.s    f
+			if ( parameterTypes.Length > 3 ) {
+				for ( int i = 4; i <= parameterTypes.Length; i++ ) {
+					il.Emit( OpCodes.Ldarg_S, (byte)i );
+				}
+			}
+			// Call the target method
+			//      IL_0011:  callvirt   instance string TestProxyGenerator.Prototype.IMockContract::MyMethod(string)
+			il.Emit( OpCodes.Callvirt, method );
+
+			// If there's a return type...
+			if ( hasReturnType ) {
+				//      IL_0016:  stloc.0
+				il.Emit( OpCodes.Stloc_0 );
+			} else {
+				//      IL_000d:  nop
+				//      IL_000e:  nop
+				il.Emit( OpCodes.Nop );
+				il.Emit( OpCodes.Nop );
+			}
+			//      IL_000f:  leave.s    IL_001c
+			il.Emit( OpCodes.Leave_S, endLabel );
+			//    }  // end .try
+			//    catch [mscorlib]System.Exception 
+			//    {
+			il.BeginCatchBlock( typeof( Exception ) );
+			// Abort the channel and rethrow the exception
+			//      IL_0011:  pop
+			//      IL_0012:  nop
+			//      IL_0013:  ldarg.0
+			//      IL_0014:  call       instance void TestProxyGenerator.Prototype.FaultSafeProxy::Abort()
+			//      IL_0019:  nop
+			//      IL_001a:  rethrow
+			il.Emit( OpCodes.Pop );
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Ldarg_0 );
+			il.Emit( OpCodes.Call, this._abortMethod );
+			il.Emit( OpCodes.Nop );
+			il.Emit( OpCodes.Rethrow );
+			//    }  // end handler
+			il.EndExceptionBlock();
+
+			//    IL_0024:  nop
+			il.Emit( OpCodes.Nop );
+			il.MarkLabel( endLabel );
+			if ( hasReturnType ) {
+				//    IL_0025:  ldloc.0
+				il.Emit( OpCodes.Ldloc_0 );
+			}
+			//    IL_0026:  ret
+			il.Emit( OpCodes.Ret );
+			// The method overrides the method in the base type
+			//			typeBuilder.DefineMethodOverride( methodBuilder, method );
 		}
 
 		/// <summary>

@@ -14,6 +14,12 @@ namespace Entropa.WcfUtils {
 	public abstract class FaultSafeEmitterBase<TInterface> where TInterface : class {
 
 		/// <summary>
+		/// The logger.
+		/// </summary>
+		private readonly static ILog	_log	= LogManager.GetLogger( typeof( FaultSafeEmitterBase<TInterface> ) );
+		
+
+		/// <summary>
 		///     The constructor.
 		/// </summary>
 		protected internal FaultSafeEmitterBase() {
@@ -142,14 +148,27 @@ namespace Entropa.WcfUtils {
 		protected Type[] GetImplementedInterfaces() {
 			// Create a list of types we'll implement
 			List<Type> types = new List<Type>(); 
-#if TEMP // TODO
 			// Add the service contract interfaces
 			types.AddRange( GetServiceContractTypes( typeof( TInterface ) ) );
-#endif
 			// Add IDisposable
 			types.Add( typeof( IDisposable ) );
 			// Return the types as an array
 			return types.ToArray();
+		}
+
+		/// <summary>
+		/// Returns an array of the types of the parameters for a given method.
+		/// </summary>
+		/// <param name="method"></param>
+		/// <returns></returns>
+		protected static Type[] GetParameterTypes( MethodInfo method ) {
+			ParameterInfo[] parameters = method.GetParameters();
+			Type[] parameterTypes = new Type[parameters.Length];
+			for ( int i = 0; i < parameters.Length; i++ ) {
+				ParameterInfo parameter = parameters[i];
+				parameterTypes[i] = parameter.ParameterType;
+			}
+			return parameterTypes;
 		}
 
 		/// <summary>
@@ -164,6 +183,56 @@ namespace Entropa.WcfUtils {
 			if ( null == attributeType ) throw new ArgumentNullException( "attributeType" );
 			object[] attributes = type.GetCustomAttributes( attributeType, inherit );
 			return ( attributes.Length > 0 );
+		}
+
+		/// <summary>
+		/// Implements the operation contracts in the type.
+		/// </summary>
+		/// <param name="typeBuilder"></param>
+		/// <param name="types"></param>
+		protected void ImplementOperationContracts( TypeBuilder typeBuilder, IEnumerable<Type> types ) {
+			foreach ( Type type in types ) {
+				this.ImplementOperationContracts( typeBuilder, type );
+			}
+		}
+
+		/// <summary>
+		/// Builds methods for the type's operation contracts.
+		/// </summary>
+		/// <param name="typeBuilder"></param>
+		/// <param name="type"></param>
+		protected void ImplementOperationContracts( TypeBuilder typeBuilder, Type type ) {
+			_log.DebugFormat( "ImplementOperationContracts - type = '{0}'", type );
+			// For each method on the type...
+			MethodInfo[] methods = type.GetMethods();
+			foreach ( MethodInfo method in methods ) {
+				// If the method is an operation contract...
+				if ( null != method.GetCustomAttributes( typeof( OperationContractAttribute ) ) ) {
+					_log.DebugFormat( " - got operation contract '{0}'", method.Name );
+					// Implement it in the proxy
+					this.ImplementOperationContract( typeBuilder, type, method );
+
+				}
+			}
+		}
+
+		/// <summary>
+		/// Implements an operation contract.
+		/// </summary>
+		/// <param name="typeBuilder"></param>
+		/// <param name="type"></param>
+		/// <param name="method"></param>
+		protected abstract void ImplementOperationContract( TypeBuilder typeBuilder, Type type, MethodInfo method );
+
+		/// <summary>
+		/// Builds methods for each operation contract in the interface.
+		/// </summary>
+		/// <param name="typeBuilder"></param>
+		protected void ImplementServiceContracts( TypeBuilder typeBuilder ) {
+			// Get all the interface types on our contract type
+			IEnumerable<Type> interfaceTypes = GetServiceContractTypes( typeof( TInterface ) );
+			// Implement the service contracts starting with our given type
+			this.ImplementOperationContracts( typeBuilder, interfaceTypes );
 		}
 
 
